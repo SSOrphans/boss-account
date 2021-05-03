@@ -37,7 +37,7 @@ public class UserAccountsDTO
           dto.setId(entity.getId());
           dto.setName(entity.getName());
           dto.setBalance(entity.getBalance());
-          dto.setType(entity.getAccountType().getName());
+          dto.setType(entity.getAccountType().toString());
           accounts.add(dto);
         }
     );

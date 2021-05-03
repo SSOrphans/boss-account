@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer>
 {
-  @Query("SELECT a FROM Account a WHERE a.userEntity.id = :userId")
+  @Query("SELECT a FROM Account a JOIN a.users u WHERE u.id = :userId AND a.closed IS NULL")
   List<Account> findAccountsByUser(Integer userId);
 }
