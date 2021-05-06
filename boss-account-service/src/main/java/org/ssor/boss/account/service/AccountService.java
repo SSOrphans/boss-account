@@ -5,10 +5,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.ssor.boss.account.exception.AccountCreationException;
-import org.ssor.boss.account.exception.AccountTypeNotFoundException;
 import org.ssor.boss.account.exception.NoAccountsFoundException;
 import org.ssor.boss.account.exception.UserNotFoundException;
 import org.ssor.boss.account.repository.AccountRepository;
+import org.ssor.boss.account.transfer.AccountDTO;
 import org.ssor.boss.account.transfer.AccountToCreateDTO;
 import org.ssor.boss.account.transfer.UserAccountsDTO;
 import org.ssor.boss.core.entity.Account;
@@ -18,6 +18,7 @@ import org.ssor.boss.core.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountService
@@ -39,8 +40,18 @@ public class AccountService
     return userAccountsDTO;
   }
 
+  public AccountDTO getAccount(Integer userId, Integer accountId) throws NoAccountsFoundException
+  {
+    Optional<Account> account = accountRepository.findAccountByIdAndUserId(userId, accountId);
+    if (account.isEmpty())
+      throw new NoAccountsFoundException();
+
+    return new AccountDTO(account.get());
+
+  }
+
   public ResponseService createAccount(AccountToCreateDTO accountParams) throws
-      UserNotFoundException, AccountCreationException, AccountTypeNotFoundException
+      UserNotFoundException, AccountCreationException
   {
 
     User user = userRepository.findById(accountParams.getUserId()).orElseThrow(UserNotFoundException::new);

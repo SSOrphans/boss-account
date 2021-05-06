@@ -6,11 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.ssor.boss.account.exception.AccountCreationException;
-import org.ssor.boss.account.exception.AccountTypeNotFoundException;
 import org.ssor.boss.account.exception.NoAccountsFoundException;
 import org.ssor.boss.account.exception.UserNotFoundException;
 import org.ssor.boss.account.service.AccountService;
 import org.ssor.boss.account.service.ResponseService;
+import org.ssor.boss.account.transfer.AccountDTO;
 import org.ssor.boss.account.transfer.AccountToCreateDTO;
 import org.ssor.boss.account.transfer.UserAccountsDTO;
 
@@ -27,7 +27,7 @@ public class AccountController
   @ResponseStatus(value = HttpStatus.CREATED)
   public ResponseService postAccountCreate(@RequestBody @Valid AccountToCreateDTO accountParams) throws
       UserNotFoundException,
-      AccountCreationException, AccountTypeNotFoundException
+      AccountCreationException
   {
     return accountService.createAccount(accountParams);
   }
@@ -40,4 +40,14 @@ public class AccountController
   {
     return accountService.getAccounts(userId);
   }
+
+  @GetMapping(value = "/{accountId}/users/{userId}",
+              produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+  @ResponseStatus(value = HttpStatus.OK)
+  public AccountDTO getAccount(@PathVariable Integer userId, @PathVariable Integer accountId) throws
+      NoAccountsFoundException
+  {
+    return accountService.getAccount(userId, accountId);
+  }
+
 }
