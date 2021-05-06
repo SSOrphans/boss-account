@@ -46,7 +46,7 @@ public class RestErrorHandler
   @RequestMapping(produces = {
       MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
   @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-  public ErrorMessage processInValidPayload(){
+  public ErrorMessage processInvalidPayload(){
     return new ErrorMessage(HttpStatus.BAD_REQUEST, "Invalid Payload Received");
   }
 

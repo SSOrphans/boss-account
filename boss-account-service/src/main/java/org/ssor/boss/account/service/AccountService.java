@@ -9,7 +9,6 @@ import org.ssor.boss.account.exception.AccountTypeNotFoundException;
 import org.ssor.boss.account.exception.NoAccountsFoundException;
 import org.ssor.boss.account.exception.UserNotFoundException;
 import org.ssor.boss.account.repository.AccountRepository;
-import org.ssor.boss.account.repository.AccountTypeRepository;
 import org.ssor.boss.account.transfer.AccountToCreateDTO;
 import org.ssor.boss.account.transfer.UserAccountsDTO;
 import org.ssor.boss.core.entity.Account;
@@ -27,8 +26,6 @@ public class AccountService
   AccountRepository accountRepository;
   @Autowired
   UserRepository userRepository;
-  @Autowired
-  AccountTypeRepository accountTypeRepository;
 
   public UserAccountsDTO getAccounts(Integer userId) throws NoAccountsFoundException
   {
@@ -47,13 +44,11 @@ public class AccountService
   {
 
     User user = userRepository.findById(accountParams.getUserId()).orElseThrow(UserNotFoundException::new);
-    AccountType accountType = accountTypeRepository.findById(accountParams.getAccountType()).orElseThrow(
-        AccountTypeNotFoundException::new);
+    AccountType accountType = AccountType.values()[accountParams.getAccountType() - 1];
 
-    accountType.setName(AccountType.AccountTypes.CARD.getType());
     Account accountEntity = new Account();
     accountEntity.setAccountType(accountType);
-    accountEntity.setUserEntity(user);
+    accountEntity.setUsers(List.of(user));
     accountEntity.setBranchId(accountParams.getBranchId());
     accountEntity.setName(accountParams.getName());
     accountEntity.setBalance(accountParams.getBalance());
