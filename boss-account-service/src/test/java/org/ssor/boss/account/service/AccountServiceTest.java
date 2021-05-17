@@ -64,16 +64,14 @@ class AccountServiceTest
     accountDto.setUserId(2);
     accountDto.setAccountType(2);
     accountDto.setBranchId(3);
-    accountDto.setName("TestAccount");
-    accountDto.setBalance(123.45f);
 
     Account ae1 = new Account();
-    ae1.setId(1);
+    ae1.setId(1L);
     ae1.setName("Test1");
     ae1.setBalance(12.34f);
     ae1.setAccountType(AccountType.ACCOUNT_CHECKING);
     Account ae2 = new Account();
-    ae2.setId(2);
+    ae2.setId(2L);
     ae2.setName("Test2");
     ae2.setBalance(56.78f);
     ae2.setAccountType(AccountType.ACCOUNT_SAVING);

@@ -15,7 +15,7 @@ import org.ssor.boss.account.transfer.AccountToCreateDTO;
 import org.ssor.boss.account.transfer.UserAccountsDTO;
 
 @RestController
-@RequestMapping(value = { "api/accounts" },
+@RequestMapping(value = { "api/v1/accounts" },
                 produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 public class AccountController
 {
@@ -44,7 +44,7 @@ public class AccountController
   @GetMapping(value = "/{accountId}/users/{userId}",
               produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
   @ResponseStatus(value = HttpStatus.OK)
-  public AccountDTO getAccount(@PathVariable Integer userId, @PathVariable Integer accountId) throws
+  public AccountDTO getAccount(@PathVariable Integer userId, @PathVariable Long accountId) throws
       NoAccountsFoundException
   {
     return accountService.getAccount(userId, accountId);

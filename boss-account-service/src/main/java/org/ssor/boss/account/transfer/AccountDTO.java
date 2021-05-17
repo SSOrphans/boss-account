@@ -12,22 +12,25 @@ import java.util.Objects;
 @NoArgsConstructor
 public class AccountDTO
 {
-  private Integer id;
+  private Long id;
   private String name;
   private Float balance;
   private String type;
+  private Boolean confirmed;
 
-  public void setId(Integer id)
+  public void setId(Long id)
   {
-    this.id = id % 10000;
+    this.id = id;
+//    this.id = String.format("%04d", id % 10000);
   }
 
   public AccountDTO(Account account)
   {
-    this.id = account.getId();
+    this.setId(account.getId());
     this.name = account.getName();
     this.balance = account.getBalance();
     this.type = account.getAccountType().toString();
+    this.confirmed = account.getConfirmed();
   }
 
   @Override

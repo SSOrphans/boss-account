@@ -41,7 +41,7 @@ class AccountControllerTest
   static void setUp()
   {
     AccountDTO accountDTO = new AccountDTO();
-    accountDTO.setId(1);
+    accountDTO.setId(1L);
     accountDTO.setType("testType");
     accountDTO.setName("TestAccount1");
     accountDTO.setBalance(123.45f);

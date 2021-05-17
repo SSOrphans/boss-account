@@ -66,9 +66,7 @@ class AccountRepositoryTest
   void test_canFindId()
   {
 
-    userRepository.save(stubbedUser);
-    accountRepository.save(stubbedAccount);
-    List<Account> foundEntity = accountRepository.findAccountsByUser(stubbedUser.getId());
+    List<Account> foundEntity = accountRepository.findAccountsByUser(1);
 
     assertNotNull(foundEntity);
   }

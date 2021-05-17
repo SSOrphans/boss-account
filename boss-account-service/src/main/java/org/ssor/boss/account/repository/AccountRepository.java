@@ -11,9 +11,9 @@ import java.util.Optional;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer>
 {
-  @Query("SELECT a FROM Account a JOIN a.users u WHERE u.id = :userId AND a.closed IS NULL")
+  @Query("SELECT a FROM Account a JOIN a.users u WHERE u.id = :userId AND a.closed IS NULL ORDER BY a.accountType")
   List<Account> findAccountsByUser(Integer userId);
 
   @Query("SELECT a FROM Account a JOIN a.users u WHERE u.id = :userId AND a.closed IS NULL AND a.id = :accountId")
-  Optional<Account> findAccountByIdAndUserId(Integer userId, Integer accountId);
+  Optional<Account> findAccountByIdAndUserId(Integer userId, Long accountId);
 }

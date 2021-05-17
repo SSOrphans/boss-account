@@ -16,9 +16,11 @@ import org.ssor.boss.core.entity.AccountType;
 import org.ssor.boss.core.entity.User;
 import org.ssor.boss.core.repository.UserRepository;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AccountService
@@ -40,7 +42,7 @@ public class AccountService
     return userAccountsDTO;
   }
 
-  public AccountDTO getAccount(Integer userId, Integer accountId) throws NoAccountsFoundException
+  public AccountDTO getAccount(Integer userId, Long accountId) throws NoAccountsFoundException
   {
     Optional<Account> account = accountRepository.findAccountByIdAndUserId(userId, accountId);
     if (account.isEmpty())
@@ -54,15 +56,17 @@ public class AccountService
       UserNotFoundException, AccountCreationException
   {
 
+    Long id =Math.abs(UUID.randomUUID().getLeastSignificantBits() % 10000000000000000L);
     User user = userRepository.findById(accountParams.getUserId()).orElseThrow(UserNotFoundException::new);
-    AccountType accountType = AccountType.values()[accountParams.getAccountType() - 1];
+    AccountType accountType = AccountType.values()[accountParams.getAccountType()];
 
     Account accountEntity = new Account();
+    accountEntity.setId(id);
     accountEntity.setAccountType(accountType);
     accountEntity.setUsers(List.of(user));
     accountEntity.setBranchId(accountParams.getBranchId());
-    accountEntity.setName(accountParams.getName());
-    accountEntity.setBalance(accountParams.getBalance());
+    accountEntity.setName(accountType.name().substring(8));
+    accountEntity.setBalance(0f);
     accountEntity.setOpened(LocalDateTime.now());
     accountEntity.setConfirmed(false);
     accountEntity.setActive(false);

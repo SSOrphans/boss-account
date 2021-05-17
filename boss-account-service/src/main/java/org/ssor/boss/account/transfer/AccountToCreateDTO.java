@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.ssor.boss.core.entity.AccountType;
 
 import javax.validation.constraints.NotNull;
 
@@ -19,9 +20,5 @@ public class AccountToCreateDTO
   @NotNull
   private Integer userId;
   @JsonProperty("branch_id")
-  @NotNull
-  private Integer branchId;
-  private String name;
-  @NotNull
-  private Float balance;
+  private Integer branchId = 0;
 }

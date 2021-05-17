@@ -16,11 +16,11 @@ public class DtoEvaluationTest
   void test_canEvaluateAccountDTO()
   {
     AccountDTO dto1 = new AccountDTO();
-    dto1.setId(1);
+    dto1.setId(1L);
     AccountDTO dto2 = new AccountDTO();
-    dto2.setId(1);
+    dto2.setId(1L);
     AccountDTO dto3 = new AccountDTO();
-    dto3.setId(2);
+    dto3.setId(2L);
 
     assertEquals(dto1, dto2);
     assertNotEquals(dto2, dto3);
@@ -34,13 +34,13 @@ public class DtoEvaluationTest
   {
 
     AccountDTO accountDto1 = new AccountDTO();
-    accountDto1.setId(1);
+    accountDto1.setId(1L);
     accountDto1.setType("testType");
     accountDto1.setName("TestAccount1");
     accountDto1.setBalance(123.45f);
 
     AccountDTO accountDto2 = new AccountDTO();
-    accountDto2.setId(2);
+    accountDto2.setId(2L);
     accountDto2.setType("testType");
     accountDto2.setName("TestAccount2");
     accountDto2.setBalance(12.34f);
