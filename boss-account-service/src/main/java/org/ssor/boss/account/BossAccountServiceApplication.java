@@ -1,4 +1,4 @@
-package org.ssor.boss.account.application;
+package org.ssor.boss.account;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +11,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication (scanBasePackages = "org.ssor.*",  exclude = { SecurityAutoConfiguration.class })
 @EntityScan(basePackages = "org.ssor.boss.*")
 @EnableJpaRepositories(basePackages = "org.ssor.boss.*")
-@EnableSwagger2
 @CrossOrigin
 public class BossAccountServiceApplication
 {

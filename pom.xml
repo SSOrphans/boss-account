@@ -22,7 +22,7 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <start-class>org.ssor.boss.account.application.BossAccountServiceApplication</start-class>
+        <start-class>org.ssor.boss.account.BossAccountServiceApplication</start-class>
     </properties>
 
 </project>
