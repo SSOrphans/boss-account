@@ -33,7 +33,7 @@ public class UserAccountsDTO
     accounts = new ArrayList<>();
     entities.forEach(
         entity -> {
-          AccountDTO dto = new AccountDTO(entity);
+          var dto = new AccountDTO(entity);
           accounts.add(dto);
         }
     );

@@ -13,10 +13,8 @@ import org.ssor.boss.account.transfer.AccountToCreateDTO;
 import org.ssor.boss.account.transfer.UserAccountsDTO;
 import org.ssor.boss.core.entity.Account;
 import org.ssor.boss.core.entity.AccountType;
-import org.ssor.boss.core.entity.User;
 import org.ssor.boss.core.repository.UserRepository;
 
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +34,7 @@ public class AccountService
     if (accountEntities.isEmpty())
       throw new NoAccountsFoundException();
 
-    UserAccountsDTO userAccountsDTO = new UserAccountsDTO();
+    var userAccountsDTO = new UserAccountsDTO();
     userAccountsDTO.setAccountsFromEntity(accountEntities);
 
     return userAccountsDTO;
@@ -57,10 +55,10 @@ public class AccountService
   {
 
     Long id =Math.abs(UUID.randomUUID().getLeastSignificantBits() % 10000000000000000L);
-    User user = userRepository.findById(accountParams.getUserId()).orElseThrow(UserNotFoundException::new);
-    AccountType accountType = AccountType.values()[accountParams.getAccountType()];
+    var user = userRepository.findById(accountParams.getUserId()).orElseThrow(UserNotFoundException::new);
+    var accountType = AccountType.values()[accountParams.getAccountType()];
 
-    Account accountEntity = new Account();
+    var accountEntity = new Account();
     accountEntity.setId(id);
     accountEntity.setAccountType(accountType);
     accountEntity.setUsers(List.of(user));

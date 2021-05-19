@@ -21,7 +21,6 @@ public class AccountDTO
   public void setId(Long id)
   {
     this.id = id;
-//    this.id = String.format("%04d", id % 10000);
   }
 
   public AccountDTO(Account account)

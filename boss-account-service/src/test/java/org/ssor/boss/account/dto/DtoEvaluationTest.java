@@ -10,7 +10,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class DtoEvaluationTest
+class DtoEvaluationTest
 {
   @Test
   void test_canEvaluateAccountDTO()
