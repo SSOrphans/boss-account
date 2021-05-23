@@ -15,6 +15,7 @@ import org.ssor.boss.account.exception.AccountTypeNotFoundException;
 import org.ssor.boss.account.exception.NoAccountsFoundException;
 import org.ssor.boss.account.exception.UserNotFoundException;
 import org.ssor.boss.account.repository.AccountRepository;
+import org.ssor.boss.account.transfer.AccountDTO;
 import org.ssor.boss.account.transfer.AccountToCreateDTO;
 import org.ssor.boss.account.transfer.UserAccountsDTO;
 import org.ssor.boss.core.entity.Account;
@@ -22,6 +23,7 @@ import org.ssor.boss.core.entity.AccountType;
 import org.ssor.boss.core.entity.User;
 import org.ssor.boss.core.repository.UserRepository;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -46,6 +48,7 @@ class AccountServiceTest
   private static User stubbedUser;
   private static AccountToCreateDTO stubbedAccountDto;
   private static List<Account> stubbedAccountEntities;
+  private static Account stubbedAccount;
 
   @BeforeAll
   static void setUp()
@@ -84,6 +87,7 @@ class AccountServiceTest
     stubbedUser = user;
     stubbedAccountDto = accountDto;
     stubbedAccountEntities = accountList;
+    stubbedAccount = ae1;
   }
 
   @Test
@@ -149,5 +153,31 @@ class AccountServiceTest
     assertThrows(NoAccountsFoundException.class, () ->
         accountService.getAccounts(0));
 
+  }
+
+  @Test
+  void test_canGetAccount() throws NoAccountsFoundException
+  {
+    Mockito.doReturn(Optional.of(stubbedAccount))
+           .when(accountRepository)
+           .findAccountByIdAndUserId(Mockito.anyInt(), Mockito.anyLong());
+
+    var expected = new AccountDTO(stubbedAccount);
+    assertEquals(expected, accountService.getAccount(1,1L));
+  }
+
+  @Test
+  void test_canThrowAccountNotFoundInCanGetAccount() {
+    Mockito.doReturn(Optional.empty())
+           .when(accountRepository)
+           .findAccountByIdAndUserId(Mockito.anyInt(), Mockito.anyLong());
+
+    NoAccountsFoundException exception =
+        assertThrows(NoAccountsFoundException.class, () -> {
+          accountService.getAccount(1,1L);
+        });
+
+    assertEquals(NoAccountsFoundException.MESSAGE, exception.getMessage());
+    assertEquals(404, NoAccountsFoundException.ERROR_CODE);
   }
 }

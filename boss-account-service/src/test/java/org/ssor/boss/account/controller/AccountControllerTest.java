@@ -36,6 +36,7 @@ class AccountControllerTest
 
   private static ResponseService stubbedCreatedResponseService;
   private static UserAccountsDTO stubbedUserAccountDto;
+  private static AccountDTO stubbedAccountDto;
 
   @BeforeAll
   static void setUp()
@@ -55,13 +56,13 @@ class AccountControllerTest
 
     stubbedCreatedResponseService = new ResponseService(HttpStatus.CREATED.value(), "New account created.");
     stubbedUserAccountDto = userAccountsDTO;
+    stubbedAccountDto = accountDTO;
   }
 
   @Test
   void test_canPostAccountConfirmation() throws
       UserNotFoundException,
-      AccountCreationException,
-      AccountTypeNotFoundException
+      AccountCreationException
   {
     Mockito.doReturn(stubbedCreatedResponseService).when(accountService)
            .createAccount(Mockito.any(AccountToCreateDTO.class));
@@ -76,5 +77,12 @@ class AccountControllerTest
     Mockito.doReturn(stubbedUserAccountDto).when(accountService).getAccounts(Mockito.anyInt());
 
     assertEquals(stubbedUserAccountDto, accountController.getUserAccounts(1));
+  }
+
+  @Test
+  void test_canGetAccount() throws NoAccountsFoundException
+  {
+    Mockito.doReturn(stubbedAccountDto).when(accountService).getAccount(Mockito.anyInt(), Mockito.anyLong());
+    assertEquals(stubbedAccountDto, accountController.getAccount(1,1L));
   }
 }

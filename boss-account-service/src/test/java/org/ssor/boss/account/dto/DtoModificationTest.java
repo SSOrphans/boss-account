@@ -38,6 +38,8 @@ class DtoModificationTest
     assertEquals(12.34f, adto.getBalance());
     adto.setName("TestName");
     assertEquals("TestName", adto.getName());
+    adto.setConfirmed(true);
+    assertEquals(true, adto.getConfirmed());
   }
 
   @Test
