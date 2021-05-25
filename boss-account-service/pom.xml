@@ -50,7 +50,6 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.7.0</version>
         </dependency>
-       git
 
         <dependency>
             <groupId>org.ssor</groupId>
