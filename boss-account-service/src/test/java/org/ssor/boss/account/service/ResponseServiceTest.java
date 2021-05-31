@@ -2,8 +2,7 @@ package org.ssor.boss.account.service;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ResponseServiceTest
 {
@@ -12,6 +11,7 @@ class ResponseServiceTest
   void test_canCreateCompleteResponseService()
   {
     ResponseService rs = new ResponseService(200, "OK");
+    assertNotNull(rs);
   }
 
   @Test

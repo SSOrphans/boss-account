@@ -1,22 +1,35 @@
 package org.ssor.boss.account.transfer;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.ssor.boss.core.entity.Account;
 
 import java.util.Objects;
 
 @Setter
 @Getter
+@NoArgsConstructor
 public class AccountDTO
 {
-  private Integer id;
+  private Long id;
   private String name;
   private Float balance;
   private String type;
+  private Boolean confirmed;
 
-  public void setId(Integer id)
+  public void setId(Long id)
   {
-    this.id = id % 10000;
+    this.id = id;
+  }
+
+  public AccountDTO(Account account)
+  {
+    this.setId(account.getId());
+    this.name = account.getName();
+    this.balance = account.getBalance();
+    this.type = account.getAccountType().toString();
+    this.confirmed = account.getConfirmed();
   }
 
   @Override

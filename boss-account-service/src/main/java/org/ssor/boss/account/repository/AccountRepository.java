@@ -6,10 +6,17 @@ import org.springframework.stereotype.Repository;
 import org.ssor.boss.core.entity.Account;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer>
 {
-  @Query("SELECT a FROM Account a JOIN a.users u WHERE u.id = :userId AND a.closed IS NULL")
+  @Query("SELECT a FROM Account a JOIN a.users u WHERE u.id = :userId AND a.closed IS NULL ORDER BY a.accountType")
   List<Account> findAccountsByUser(Integer userId);
+
+  @Query("SELECT a FROM Account a JOIN a.users u WHERE u.id = :userId AND a.closed IS NULL AND a.id = :accountId")
+  Optional<Account> findAccountByIdAndUserId(Integer userId, Long accountId);
+
+  @Query("SELECT a FROM Account a WHERE a.id = :id")
+  Optional<Account> findById(Long id);
 }
