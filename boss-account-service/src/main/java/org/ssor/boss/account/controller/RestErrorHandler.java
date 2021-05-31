@@ -3,10 +3,7 @@ package org.ssor.boss.account.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.*;
 import org.ssor.boss.account.exception.AccountCreationException;
 import org.ssor.boss.account.exception.NoAccountsFoundException;
 import org.ssor.boss.account.exception.UserNotFoundException;
@@ -16,7 +13,7 @@ import org.ssor.boss.account.transfer.ErrorMessage;
 public class RestErrorHandler
 {
   @ExceptionHandler(UserNotFoundException.class)
-  @RequestMapping(produces = {
+  @PostMapping(produces = {
       MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
   @ResponseStatus(code = HttpStatus.NOT_FOUND)
   public ErrorMessage processUserNotFound()
@@ -25,7 +22,7 @@ public class RestErrorHandler
   }
 
   @ExceptionHandler(AccountCreationException.class)
-  @RequestMapping(produces = {
+  @PostMapping(produces = {
       MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
   @ResponseStatus(code = HttpStatus.BAD_REQUEST)
   public ErrorMessage processAccountCreationFailed()
@@ -34,7 +31,7 @@ public class RestErrorHandler
   }
 
   @ExceptionHandler(NoAccountsFoundException.class)
-  @RequestMapping(produces = {
+  @GetMapping(produces = {
       MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
   @ResponseStatus(code = HttpStatus.NOT_FOUND)
   public ErrorMessage processNoAccountsFound()
@@ -43,7 +40,7 @@ public class RestErrorHandler
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  @RequestMapping(produces = {
+  @PostMapping(produces = {
       MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
   @ResponseStatus(code = HttpStatus.BAD_REQUEST)
   public ErrorMessage processInvalidPayload(){

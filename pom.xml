@@ -25,7 +25,8 @@
         <start-class>org.ssor.boss.account.BossAccountServiceApplication</start-class>
         <jacoco.version>0.8.6</jacoco.version>
         <sonar.language>java</sonar.language>
-        <sonar.coverage.jacoco.xmlReportPaths>/boss-account-service/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>/boss-account-service/target/site/jacoco/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <build>
