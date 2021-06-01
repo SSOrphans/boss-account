@@ -7,6 +7,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.ssor.boss.account.service.AccountAdminService;
 import org.ssor.boss.core.entity.Account;
@@ -54,6 +56,14 @@ class AccountAdminControllerTest
            .when(accountAdminService)
            .getAccount(Mockito.anyLong());
     assertEquals(stubbedAccount, accountAdminController.getAccount(1L));
+  }
+
+  @Test
+  void test_canDeleteAccount() throws AccountNotFoundException
+  {
+    var response = new ResponseEntity<>("Account Successfully Deleted", HttpStatus.NO_CONTENT);
+    Mockito.doReturn(response).when(accountAdminService).deleteAccount(Mockito.anyLong());
+    assertEquals(response, accountAdminController.deleteAccount(1L));
   }
 
 }
