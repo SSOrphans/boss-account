@@ -19,9 +19,5 @@ public class AccountToCreateDTO
   @NotNull
   private Integer userId;
   @JsonProperty("branch_id")
-  @NotNull
-  private Integer branchId;
-  private String name;
-  @NotNull
-  private Float balance;
+  private Integer branchId = 0;
 }

@@ -33,11 +33,7 @@ public class UserAccountsDTO
     accounts = new ArrayList<>();
     entities.forEach(
         entity -> {
-          AccountDTO dto = new AccountDTO();
-          dto.setId(entity.getId());
-          dto.setName(entity.getName());
-          dto.setBalance(entity.getBalance());
-          dto.setType(entity.getAccountType().toString());
+          var dto = new AccountDTO(entity);
           accounts.add(dto);
         }
     );

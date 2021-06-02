@@ -20,12 +20,8 @@ class DtoModificationTest
 
     atcdto.setAccountType(1);
     assertEquals(1, atcdto.getAccountType());
-    atcdto.setBalance(123.45f);
-    assertEquals(123.45f, atcdto.getBalance());
     atcdto.setBranchId(2);
     assertEquals(2, atcdto.getBranchId());
-    atcdto.setName("TestName");
-    assertEquals("TestName", atcdto.getName());
     atcdto.setUserId(3);
     assertEquals(3, atcdto.getUserId());
   }
@@ -36,12 +32,14 @@ class DtoModificationTest
 
     adto.setType("TestType");
     assertEquals("TestType", adto.getType());
-    adto.setId(1);
+    adto.setId(1L);
     assertEquals(1, adto.getId());
     adto.setBalance(12.34f);
     assertEquals(12.34f, adto.getBalance());
     adto.setName("TestName");
     assertEquals("TestName", adto.getName());
+    adto.setConfirmed(true);
+    assertEquals(true, adto.getConfirmed());
   }
 
   @Test
@@ -49,13 +47,13 @@ class DtoModificationTest
     UserAccountsDTO uadto = new UserAccountsDTO();
     List<AccountDTO> accounts = new ArrayList<>();
     AccountDTO a = new AccountDTO();
-    a.setId(1);
+    a.setId(1L);
     AccountDTO b = new AccountDTO();
-    b.setId(2);
+    b.setId(2L);
     AccountDTO c = new AccountDTO();
-    c.setId(3);
+    c.setId(3L);
     AccountDTO d = new AccountDTO();
-    d.setId(4);
+    d.setId(4L);
 
     accounts.add(a);
     accounts.add(b);
@@ -72,9 +70,9 @@ class DtoModificationTest
 
     List<AccountDTO> expectedAccounts = new ArrayList<>();
     AccountDTO expectedA = new AccountDTO();
-    expectedA.setId(1);
+    expectedA.setId(1L);
     AccountDTO expectedB = new AccountDTO();
-    expectedB.setId(2);
+    expectedB.setId(2L);
 
     expectedAccounts.add(expectedA);
     expectedAccounts.add(expectedB);
@@ -83,12 +81,12 @@ class DtoModificationTest
     Account a = new Account();
     Account b = new Account();
 
-    a.setId(1);
+    a.setId(1L);
     a.setName("TestA");
     a.setBalance(12.34f);
     a.setAccountType(AccountType.ACCOUNT_CHECKING);
 
-    b.setId(2);
+    b.setId(2L);
     b.setName("TestB");
     b.setBalance(67.89f);
     b.setAccountType(AccountType.ACCOUNT_SAVING);

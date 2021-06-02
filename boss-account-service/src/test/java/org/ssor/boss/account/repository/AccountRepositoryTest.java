@@ -4,11 +4,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.ssor.boss.account.BossAccountServiceApplicationTests;
-import org.ssor.boss.account.application.BossAccountServiceApplication;
 import org.ssor.boss.core.entity.Account;
 import org.ssor.boss.core.entity.AccountType;
 import org.ssor.boss.core.entity.User;
@@ -22,10 +17,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
-@ContextConfiguration(classes = { BossAccountServiceApplicationTests.class })
-@TestPropertySource(value = {
-    "classpath:test.properties"
-})
 class AccountRepositoryTest
 {
   @Autowired
@@ -66,9 +57,7 @@ class AccountRepositoryTest
   void test_canFindId()
   {
 
-    userRepository.save(stubbedUser);
-    accountRepository.save(stubbedAccount);
-    List<Account> foundEntity = accountRepository.findAccountsByUser(stubbedUser.getId());
+    List<Account> foundEntity = accountRepository.findAccountsByUser(1);
 
     assertNotNull(foundEntity);
   }
