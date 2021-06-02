@@ -11,12 +11,12 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <modules>
-        <module>boss-account-service</module>
+        <module>boss-account</module>
         <module>boss-core</module>
     </modules>
 
     <groupId>org.ssor.boss</groupId>
-    <artifactId>boss-account</artifactId>
+    <artifactId>boss-account-service</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
