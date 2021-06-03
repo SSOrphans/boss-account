@@ -21,7 +21,7 @@ class AccountHealthControllerTest
   @Test
   void test_canBeHealthy()
   {
-    var response = new ResponseEntity<>("Healthy", HttpStatus.OK);
+    var response = new ResponseEntity<>("", HttpStatus.OK);
     assertEquals(response, accountHealthController.accountHealth());
   }
 }
