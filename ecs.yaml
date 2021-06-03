@@ -129,6 +129,7 @@ Resources:
       Conditions:
         - Field: path-pattern
           Values:
+            - /api/v1/accounts/health
             - /api/v1/accounts*
             - /api/v1/accounts/*
             - /api/admin/v1/accounts/*
