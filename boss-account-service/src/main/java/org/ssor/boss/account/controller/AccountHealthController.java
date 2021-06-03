@@ -15,6 +15,6 @@ public class AccountHealthController
   @ResponseStatus(value = HttpStatus.OK)
   public ResponseEntity<String> accountHealth()
   {
-    return new ResponseEntity<>("Healthy", HttpStatus.OK);
+    return new ResponseEntity<>("", HttpStatus.OK);
   }
 }
