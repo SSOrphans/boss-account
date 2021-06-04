@@ -17,6 +17,7 @@ import org.ssor.boss.account.transfer.UserAccountsDTO;
 @RestController
 @RequestMapping(value = { "api/v1/accounts" },
                 produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+@CrossOrigin
 public class AccountController
 {
   @Autowired

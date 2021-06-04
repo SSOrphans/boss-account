@@ -13,6 +13,7 @@ import javax.security.auth.login.AccountNotFoundException;
 @RestController
 @RequestMapping(value = { "api/admin/v1" },
                 produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+@CrossOrigin
 public class AccountAdminController
 {
   @Autowired
