@@ -10,9 +10,9 @@ import org.ssor.boss.account.exception.NoAccountsFoundException;
 import org.ssor.boss.account.exception.UserNotFoundException;
 import org.ssor.boss.account.service.AccountService;
 import org.ssor.boss.account.service.ResponseService;
-import org.ssor.boss.account.transfer.AccountDTO;
-import org.ssor.boss.account.transfer.AccountToCreateDTO;
-import org.ssor.boss.account.transfer.UserAccountsDTO;
+import org.ssor.boss.account.transfer.AccountTransfer;
+import org.ssor.boss.account.transfer.AccountToCreateTransfer;
+import org.ssor.boss.account.transfer.UserAccountsTransfer;
 
 @RestController
 @RequestMapping(value = { "api/v1/accounts" },
@@ -26,7 +26,7 @@ public class AccountController
   @PostMapping(value = { "" },
                produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
   @ResponseStatus(value = HttpStatus.CREATED)
-  public ResponseService postAccountCreate(@RequestBody @Valid AccountToCreateDTO accountParams) throws
+  public ResponseService postAccountCreate(@RequestBody @Valid AccountToCreateTransfer accountParams) throws
       UserNotFoundException,
       AccountCreationException
   {
@@ -36,7 +36,7 @@ public class AccountController
   @GetMapping(value = { "/users/{userId}" },
               produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
   @ResponseStatus(value = HttpStatus.OK)
-  public UserAccountsDTO getUserAccounts(@PathVariable Integer userId) throws
+  public UserAccountsTransfer getUserAccounts(@PathVariable Integer userId) throws
       NoAccountsFoundException
   {
     return accountService.getAccounts(userId);
@@ -45,7 +45,7 @@ public class AccountController
   @GetMapping(value = "/{accountId}/users/{userId}",
               produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
   @ResponseStatus(value = HttpStatus.OK)
-  public AccountDTO getAccount(@PathVariable Integer userId, @PathVariable Long accountId) throws
+  public AccountTransfer getAccount(@PathVariable Integer userId, @PathVariable Long accountId) throws
       NoAccountsFoundException
   {
     return accountService.getAccount(userId, accountId);

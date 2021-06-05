@@ -1,8 +1,8 @@
 package org.ssor.boss.account.dto;
 
 import org.junit.jupiter.api.Test;
-import org.ssor.boss.account.transfer.AccountDTO;
-import org.ssor.boss.account.transfer.UserAccountsDTO;
+import org.ssor.boss.account.transfer.AccountTransfer;
+import org.ssor.boss.account.transfer.UserAccountsTransfer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +15,11 @@ class DtoEvaluationTest
   @Test
   void test_canEvaluateAccountDTO()
   {
-    AccountDTO dto1 = new AccountDTO();
+    AccountTransfer dto1 = new AccountTransfer();
     dto1.setId(1L);
-    AccountDTO dto2 = new AccountDTO();
+    AccountTransfer dto2 = new AccountTransfer();
     dto2.setId(1L);
-    AccountDTO dto3 = new AccountDTO();
+    AccountTransfer dto3 = new AccountTransfer();
     dto3.setId(2L);
 
     assertEquals(dto1, dto2);
@@ -33,29 +33,29 @@ class DtoEvaluationTest
   void test_canEvaluateUserAccountsDTO()
   {
 
-    AccountDTO accountDto1 = new AccountDTO();
-    accountDto1.setId(1L);
-    accountDto1.setType("testType");
-    accountDto1.setName("TestAccount1");
-    accountDto1.setBalance(123.45f);
+    AccountTransfer accountTransfer1 = new AccountTransfer();
+    accountTransfer1.setId(1L);
+    accountTransfer1.setType("testType");
+    accountTransfer1.setName("TestAccount1");
+    accountTransfer1.setBalance(123.45f);
 
-    AccountDTO accountDto2 = new AccountDTO();
-    accountDto2.setId(2L);
-    accountDto2.setType("testType");
-    accountDto2.setName("TestAccount2");
-    accountDto2.setBalance(12.34f);
+    AccountTransfer accountTransfer2 = new AccountTransfer();
+    accountTransfer2.setId(2L);
+    accountTransfer2.setType("testType");
+    accountTransfer2.setName("TestAccount2");
+    accountTransfer2.setBalance(12.34f);
 
-    List<AccountDTO> list1 = new ArrayList<>();
-    List<AccountDTO> list2 = new ArrayList<>();
+    List<AccountTransfer> list1 = new ArrayList<>();
+    List<AccountTransfer> list2 = new ArrayList<>();
 
-    list1.add(accountDto1);
-    list2.add(accountDto2);
+    list1.add(accountTransfer1);
+    list2.add(accountTransfer2);
 
-    UserAccountsDTO dto1 = new UserAccountsDTO();
+    UserAccountsTransfer dto1 = new UserAccountsTransfer();
     dto1.setAccounts(list1);
-    UserAccountsDTO dto2 = new UserAccountsDTO();
+    UserAccountsTransfer dto2 = new UserAccountsTransfer();
     dto2.setAccounts(list1);
-    UserAccountsDTO dto3 = new UserAccountsDTO();
+    UserAccountsTransfer dto3 = new UserAccountsTransfer();
     dto3.setAccounts(list2);
 
     assertEquals(dto1, dto2);

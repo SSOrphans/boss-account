@@ -1,9 +1,9 @@
 package org.ssor.boss.account.dto;
 
 import org.junit.jupiter.api.Test;
-import org.ssor.boss.account.transfer.AccountDTO;
-import org.ssor.boss.account.transfer.AccountToCreateDTO;
-import org.ssor.boss.account.transfer.UserAccountsDTO;
+import org.ssor.boss.account.transfer.AccountTransfer;
+import org.ssor.boss.account.transfer.AccountToCreateTransfer;
+import org.ssor.boss.account.transfer.UserAccountsTransfer;
 import org.ssor.boss.core.entity.Account;
 import org.ssor.boss.core.entity.AccountType;
 
@@ -16,7 +16,7 @@ class DtoModificationTest
 {
   @Test
   void test_CanModifyAccountToCreateDto(){
-    AccountToCreateDTO atcdto = new AccountToCreateDTO();
+    AccountToCreateTransfer atcdto = new AccountToCreateTransfer();
 
     atcdto.setAccountType(1);
     assertEquals(1, atcdto.getAccountType());
@@ -28,7 +28,7 @@ class DtoModificationTest
 
   @Test
   void test_canModifyAccountDto(){
-    AccountDTO adto = new AccountDTO();
+    AccountTransfer adto = new AccountTransfer();
 
     adto.setType("TestType");
     assertEquals("TestType", adto.getType());
@@ -44,15 +44,15 @@ class DtoModificationTest
 
   @Test
   void test_canModifyUserAccountsDto(){
-    UserAccountsDTO uadto = new UserAccountsDTO();
-    List<AccountDTO> accounts = new ArrayList<>();
-    AccountDTO a = new AccountDTO();
+    UserAccountsTransfer uadto = new UserAccountsTransfer();
+    List<AccountTransfer> accounts = new ArrayList<>();
+    AccountTransfer a = new AccountTransfer();
     a.setId(1L);
-    AccountDTO b = new AccountDTO();
+    AccountTransfer b = new AccountTransfer();
     b.setId(2L);
-    AccountDTO c = new AccountDTO();
+    AccountTransfer c = new AccountTransfer();
     c.setId(3L);
-    AccountDTO d = new AccountDTO();
+    AccountTransfer d = new AccountTransfer();
     d.setId(4L);
 
     accounts.add(a);
@@ -66,12 +66,12 @@ class DtoModificationTest
 
   @Test
   void test_canModifyUserAccountsDtoFromEntities(){
-    UserAccountsDTO uadto = new UserAccountsDTO();
+    UserAccountsTransfer uadto = new UserAccountsTransfer();
 
-    List<AccountDTO> expectedAccounts = new ArrayList<>();
-    AccountDTO expectedA = new AccountDTO();
+    List<AccountTransfer> expectedAccounts = new ArrayList<>();
+    AccountTransfer expectedA = new AccountTransfer();
     expectedA.setId(1L);
-    AccountDTO expectedB = new AccountDTO();
+    AccountTransfer expectedB = new AccountTransfer();
     expectedB.setId(2L);
 
     expectedAccounts.add(expectedA);

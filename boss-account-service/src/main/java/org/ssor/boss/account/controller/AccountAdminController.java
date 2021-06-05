@@ -6,9 +6,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.ssor.boss.account.service.AccountAdminService;
+import org.ssor.boss.account.service.AccountListOptions;
+import org.ssor.boss.account.transfer.AccountListTransfer;
 import org.ssor.boss.core.entity.Account;
 
 import javax.security.auth.login.AccountNotFoundException;
+import javax.websocket.server.PathParam;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = { "api/admin/v1" },
@@ -24,6 +29,24 @@ public class AccountAdminController
   public Account getAccount(@PathVariable Long id) throws AccountNotFoundException
   {
     return accountService.getAccount(id);
+  }
+
+  @GetMapping(value = { "/accounts" })
+  @ResponseStatus(value = HttpStatus.OK)
+  public AccountListTransfer getAccountList(
+      @PathParam("sortBy") Optional<String> sortBy,
+      @PathParam("offset") Optional<Integer> offset,
+      @PathParam("limit") Optional<Integer> limit,
+      @PathParam("sortDirection") Optional<String> sortDirection
+  ) throws AccountNotFoundException
+  {
+    var options = new AccountListOptions(
+        sortBy.orElse(AccountListOptions.DEFAULT_SORT_COLUMN),
+        offset.orElse(0).toString(),
+        limit.orElse(5).toString(),
+        sortDirection.orElse("false")
+    );
+    return accountService.getAccounts(options);
   }
 
   @DeleteMapping(value = { "/accounts/{id}" })

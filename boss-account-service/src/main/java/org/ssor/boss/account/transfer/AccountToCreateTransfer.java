@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Data
-public class AccountToCreateDTO
+public class AccountToCreateTransfer
 {
   @JsonProperty("account_type")
   @NotNull
