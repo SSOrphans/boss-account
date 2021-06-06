@@ -4,17 +4,26 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.ssor.boss.account.exception.NoAccountsFoundException;
 import org.ssor.boss.account.service.AccountAdminService;
+import org.ssor.boss.account.service.AccountListOptions;
+import org.ssor.boss.account.transfer.AccountListTransfer;
+import org.ssor.boss.account.transfer.AccountTransfer;
 import org.ssor.boss.core.entity.Account;
 import org.ssor.boss.core.entity.AccountType;
 
 import javax.security.auth.login.AccountNotFoundException;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -30,6 +39,7 @@ class AccountAdminControllerTest
   AccountAdminController accountAdminController;
 
   static Account stubbedAccount;
+  static AccountListTransfer stubbedAccountListTransfer;
 
   @BeforeAll
   static void setUp()
@@ -46,6 +56,10 @@ class AccountAdminControllerTest
     account.setBranchId(1);
 
     stubbedAccount = account;
+
+    List<AccountTransfer> accountTransferList = new ArrayList<>();
+    accountTransferList.add(new AccountTransfer(account));
+    stubbedAccountListTransfer = new AccountListTransfer(accountTransferList, 1, 1,1);
 
   }
 
@@ -64,6 +78,17 @@ class AccountAdminControllerTest
     var response = new ResponseEntity<>("Account Successfully Deleted", HttpStatus.NO_CONTENT);
     Mockito.doReturn(response).when(accountAdminService).deleteAccount(Mockito.anyLong());
     assertEquals(response, accountAdminController.deleteAccount(1L));
+  }
+
+  @Test
+  void test_canFetchAccountList() throws NoAccountsFoundException
+  {
+    int limit = 1;
+    Mockito.doReturn(stubbedAccountListTransfer).when(accountAdminService).getAccounts(
+        Mockito.any(AccountListOptions.class)
+    );
+  assertEquals(stubbedAccountListTransfer, accountAdminController.getAccountList(Optional.of(""), Optional.of(1), Optional.of(1), Optional
+      .of("")));
   }
 
 }

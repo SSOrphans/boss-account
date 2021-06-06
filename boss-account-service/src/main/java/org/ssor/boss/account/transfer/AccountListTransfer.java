@@ -1,12 +1,12 @@
 package org.ssor.boss.account.transfer;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-@Getter
+@Data
 public class AccountListTransfer
 {
   private final List<AccountTransfer> accounts;

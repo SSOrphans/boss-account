@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.ssor.boss.account.exception.NoAccountsFoundException;
 import org.ssor.boss.account.repository.AccountRepository;
 import org.ssor.boss.account.transfer.AccountTransfer;
 import org.ssor.boss.account.transfer.AccountListTransfer;
@@ -36,18 +37,18 @@ public class AccountAdminService
     return new ResponseEntity<>("Account Successfully Deleted", HttpStatus.NO_CONTENT);
   }
 
-  public AccountListTransfer getAccounts(AccountListOptions options) throws AccountNotFoundException
+  public AccountListTransfer getAccounts(AccountListOptions options) throws NoAccountsFoundException
   {
     Pageable pageable = PageRequest.of(
         options.getOffset(),
         options.getLimit(),
         Sort.by(options.getSortDirection(), options.getSortBy(), AccountListOptions.DEFAULT_SORT_COLUMN));
     Optional<Page<Account>> optionalAccounts = Optional.ofNullable(accountRepository.findAccountsWithOptions(pageable));
-    Page<Account> accountPage = optionalAccounts.orElseThrow(AccountNotFoundException::new);
+    Page<Account> accountPage = optionalAccounts.orElseThrow(NoAccountsFoundException::new);
     List<AccountTransfer> accountList = accountPage.stream().map(AccountTransfer::new).collect(Collectors.toList());
 
     if (accountList.isEmpty())
-      throw new AccountNotFoundException();
+      throw new NoAccountsFoundException();
 
     return new AccountListTransfer(accountList, accountPage.getNumber() + 1, accountPage.getTotalPages(),
                                    options.getLimit());
