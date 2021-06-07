@@ -2,6 +2,7 @@ package org.ssor.boss.account.transfer;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.ssor.boss.core.entity.Account;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
 @Data
 public class AccountListTransfer
 {
-  private final List<AccountTransfer> accounts;
+  private final List<Account> accounts;
   private final Integer page;
   private final Integer pages;
   private final Integer limit;

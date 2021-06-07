@@ -100,8 +100,7 @@ class AccountAdminServiceTest
     Mockito.doReturn(stubbedAccountTransferPage).when(accountRepository)
            .findAccountsWithOptions(Mockito.any(Pageable.class));
 
-    List<AccountTransfer> accountList = stubbedAccountTransferPage.stream().map(AccountTransfer::new)
-                                                                  .collect(Collectors.toList());
+    List<Account> accountList = stubbedAccountTransferPage.stream().collect(Collectors.toList());
     AccountListTransfer expected = new AccountListTransfer(accountList, stubbedAccountTransferPage.getNumber() + 1,
                                                            stubbedAccountTransferPage.getTotalPages(), limit);
     assertEquals(expected, accountAdminService.getAccounts(

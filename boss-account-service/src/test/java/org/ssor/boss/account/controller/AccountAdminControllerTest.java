@@ -57,8 +57,8 @@ class AccountAdminControllerTest
 
     stubbedAccount = account;
 
-    List<AccountTransfer> accountTransferList = new ArrayList<>();
-    accountTransferList.add(new AccountTransfer(account));
+    List<Account> accountTransferList = new ArrayList<>();
+    accountTransferList.add(account);
     stubbedAccountListTransfer = new AccountListTransfer(accountTransferList, 1, 1,1);
 
   }

@@ -45,7 +45,7 @@ public class AccountAdminService
         Sort.by(options.getSortDirection(), options.getSortBy(), AccountListOptions.DEFAULT_SORT_COLUMN));
     Optional<Page<Account>> optionalAccounts = Optional.ofNullable(accountRepository.findAccountsWithOptions(pageable));
     Page<Account> accountPage = optionalAccounts.orElseThrow(NoAccountsFoundException::new);
-    List<AccountTransfer> accountList = accountPage.stream().map(AccountTransfer::new).collect(Collectors.toList());
+    List<Account> accountList = accountPage.stream().collect(Collectors.toList());
 
     if (accountList.isEmpty())
       throw new NoAccountsFoundException();
