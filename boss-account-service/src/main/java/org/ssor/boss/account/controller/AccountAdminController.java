@@ -34,6 +34,8 @@ public class AccountAdminController
   @GetMapping(value = { "/accounts" })
   @ResponseStatus(value = HttpStatus.OK)
   public AccountListTransfer getAccountList(
+      @PathParam("keyword") Optional<String> keyword,
+      @PathParam("filter") Optional<String> filter,
       @PathParam("sortBy") Optional<String> sortBy,
       @PathParam("offset") Optional<Integer> offset,
       @PathParam("limit") Optional<Integer> limit,
@@ -44,7 +46,9 @@ public class AccountAdminController
         sortBy.orElse(AccountListOptions.DEFAULT_SORT_COLUMN),
         offset.orElse(0).toString(),
         limit.orElse(5).toString(),
-        sortDirection.orElse("false")
+        sortDirection.orElse("false"),
+        keyword.orElse(""),
+        filter.orElse("")
     );
     return accountService.getAccounts(options);
   }

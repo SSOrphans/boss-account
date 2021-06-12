@@ -59,7 +59,7 @@ class AccountAdminControllerTest
 
     List<Account> accountTransferList = new ArrayList<>();
     accountTransferList.add(account);
-    stubbedAccountListTransfer = new AccountListTransfer(accountTransferList, 1, 1,1);
+    stubbedAccountListTransfer = new AccountListTransfer(accountTransferList, 1, 1, 1);
 
   }
 
@@ -87,8 +87,9 @@ class AccountAdminControllerTest
     Mockito.doReturn(stubbedAccountListTransfer).when(accountAdminService).getAccounts(
         Mockito.any(AccountListOptions.class)
     );
-  assertEquals(stubbedAccountListTransfer, accountAdminController.getAccountList(Optional.of(""), Optional.of(1), Optional.of(1), Optional
-      .of("")));
+    assertEquals(stubbedAccountListTransfer, accountAdminController
+        .getAccountList(Optional.of(""), Optional.of(""), Optional.of(""), Optional.of(1), Optional.of(1), Optional
+            .of("")));
   }
 
 }

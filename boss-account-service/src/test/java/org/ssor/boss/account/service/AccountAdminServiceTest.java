@@ -98,7 +98,7 @@ class AccountAdminServiceTest
   {
     int limit = 1;
     Mockito.doReturn(stubbedAccountTransferPage).when(accountRepository)
-           .findAccountsWithOptions(Mockito.any(Pageable.class));
+           .findAccountsWithOptions(Mockito.anyString(), Mockito.any(AccountType.class), Mockito.any(Pageable.class));
 
     List<Account> accountList = stubbedAccountTransferPage.stream().collect(Collectors.toList());
     AccountListTransfer expected = new AccountListTransfer(accountList, stubbedAccountTransferPage.getNumber() + 1,
@@ -112,7 +112,7 @@ class AccountAdminServiceTest
   void test_canThrowAccountNotFoundException()
   {
     Mockito.doReturn(new PageImpl<Account>(new ArrayList<>())).when(accountRepository)
-           .findAccountsWithOptions(Mockito.any(Pageable.class));
+           .findAccountsWithOptions(Mockito.anyString(), Mockito.any(AccountType.class), Mockito.any(Pageable.class));
 
     NoAccountsFoundException exception =
         assertThrows(NoAccountsFoundException.class, () ->
