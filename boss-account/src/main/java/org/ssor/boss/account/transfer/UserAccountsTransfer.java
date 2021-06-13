@@ -10,16 +10,16 @@ import java.util.Objects;
 
 @Getter
 @Setter
-public class UserAccountsDTO
+public class UserAccountsTransfer
 {
-  List<AccountDTO> accounts;
+  List<AccountTransfer> accounts;
 
   @Override
   public boolean equals(Object o)
   {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    UserAccountsDTO that = (UserAccountsDTO) o;
+    UserAccountsTransfer that = (UserAccountsTransfer) o;
     return accounts.equals(that.accounts);
   }
 
@@ -33,7 +33,7 @@ public class UserAccountsDTO
     accounts = new ArrayList<>();
     entities.forEach(
         entity -> {
-          var dto = new AccountDTO(entity);
+          var dto = new AccountTransfer(entity);
           accounts.add(dto);
         }
     );

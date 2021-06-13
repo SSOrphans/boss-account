@@ -15,15 +15,14 @@ import org.ssor.boss.account.exception.AccountTypeNotFoundException;
 import org.ssor.boss.account.exception.NoAccountsFoundException;
 import org.ssor.boss.account.exception.UserNotFoundException;
 import org.ssor.boss.account.repository.AccountRepository;
-import org.ssor.boss.account.transfer.AccountDTO;
-import org.ssor.boss.account.transfer.AccountToCreateDTO;
-import org.ssor.boss.account.transfer.UserAccountsDTO;
+import org.ssor.boss.account.transfer.AccountTransfer;
+import org.ssor.boss.account.transfer.AccountToCreateTransfer;
+import org.ssor.boss.account.transfer.UserAccountsTransfer;
 import org.ssor.boss.core.entity.Account;
 import org.ssor.boss.core.entity.AccountType;
 import org.ssor.boss.core.entity.User;
 import org.ssor.boss.core.repository.UserRepository;
 
-import javax.security.auth.login.AccountNotFoundException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -46,7 +45,7 @@ class AccountServiceTest
   AccountService accountService;
 
   private static User stubbedUser;
-  private static AccountToCreateDTO stubbedAccountDto;
+  private static AccountToCreateTransfer stubbedAccountDto;
   private static List<Account> stubbedAccountEntities;
   private static Account stubbedAccount;
 
@@ -63,7 +62,7 @@ class AccountServiceTest
     user.setUsername("testB");
     user.setPassword("TestPassword");
 
-    AccountToCreateDTO accountDto = new AccountToCreateDTO();
+    AccountToCreateTransfer accountDto = new AccountToCreateTransfer();
     accountDto.setUserId(2);
     accountDto.setAccountType(2);
     accountDto.setBranchId(3);
@@ -94,12 +93,12 @@ class AccountServiceTest
   void test_canGetAccounts() throws NoAccountsFoundException
   {
     Mockito.doReturn(stubbedAccountEntities).when(accountRepository).findAccountsByUser(Mockito.anyInt());
-    UserAccountsDTO expectedUserAccountsDTO = new UserAccountsDTO();
-    expectedUserAccountsDTO.setAccountsFromEntity(stubbedAccountEntities);
+    UserAccountsTransfer expectedUserAccountsTransfer = new UserAccountsTransfer();
+    expectedUserAccountsTransfer.setAccountsFromEntity(stubbedAccountEntities);
 
-    UserAccountsDTO actualUserAccountsDTO = accountService.getAccounts(1);
+    UserAccountsTransfer actualUserAccountsTransfer = accountService.getAccounts(1);
 
-    assertEquals(expectedUserAccountsDTO, actualUserAccountsDTO);
+    assertEquals(expectedUserAccountsTransfer, actualUserAccountsTransfer);
   }
 
   @Test
@@ -162,7 +161,7 @@ class AccountServiceTest
            .when(accountRepository)
            .findAccountByIdAndUserId(Mockito.anyInt(), Mockito.anyLong());
 
-    var expected = new AccountDTO(stubbedAccount);
+    var expected = new AccountTransfer(stubbedAccount);
     assertEquals(expected, accountService.getAccount(1,1L));
   }
 

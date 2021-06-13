@@ -10,14 +10,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.ssor.boss.account.exception.AccountCreationException;
-import org.ssor.boss.account.exception.AccountTypeNotFoundException;
 import org.ssor.boss.account.exception.NoAccountsFoundException;
 import org.ssor.boss.account.exception.UserNotFoundException;
 import org.ssor.boss.account.service.AccountService;
 import org.ssor.boss.account.service.ResponseService;
-import org.ssor.boss.account.transfer.AccountDTO;
-import org.ssor.boss.account.transfer.AccountToCreateDTO;
-import org.ssor.boss.account.transfer.UserAccountsDTO;
+import org.ssor.boss.account.transfer.AccountTransfer;
+import org.ssor.boss.account.transfer.AccountToCreateTransfer;
+import org.ssor.boss.account.transfer.UserAccountsTransfer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,28 +34,28 @@ class AccountControllerTest
   AccountController accountController;
 
   private static ResponseService stubbedCreatedResponseService;
-  private static UserAccountsDTO stubbedUserAccountDto;
-  private static AccountDTO stubbedAccountDto;
+  private static UserAccountsTransfer stubbedUserAccountDto;
+  private static AccountTransfer stubbedAccountTransfer;
 
   @BeforeAll
   static void setUp()
   {
-    AccountDTO accountDTO = new AccountDTO();
-    accountDTO.setId(1L);
-    accountDTO.setType("testType");
-    accountDTO.setName("TestAccount1");
-    accountDTO.setBalance(123.45f);
+    AccountTransfer accountTransfer = new AccountTransfer();
+    accountTransfer.setId(1L);
+    accountTransfer.setType("testType");
+    accountTransfer.setName("TestAccount1");
+    accountTransfer.setBalance(123.45f);
 
-    List<AccountDTO> accountList = new ArrayList<>();
+    List<AccountTransfer> accountList = new ArrayList<>();
 
-    accountList.add(accountDTO);
+    accountList.add(accountTransfer);
 
-    UserAccountsDTO userAccountsDTO = new UserAccountsDTO();
-    userAccountsDTO.setAccounts(accountList);
+    UserAccountsTransfer userAccountsTransfer = new UserAccountsTransfer();
+    userAccountsTransfer.setAccounts(accountList);
 
     stubbedCreatedResponseService = new ResponseService(HttpStatus.CREATED.value(), "New account created.");
-    stubbedUserAccountDto = userAccountsDTO;
-    stubbedAccountDto = accountDTO;
+    stubbedUserAccountDto = userAccountsTransfer;
+    stubbedAccountTransfer = accountTransfer;
   }
 
   @Test
@@ -65,10 +64,10 @@ class AccountControllerTest
       AccountCreationException
   {
     Mockito.doReturn(stubbedCreatedResponseService).when(accountService)
-           .createAccount(Mockito.any(AccountToCreateDTO.class));
+           .createAccount(Mockito.any(AccountToCreateTransfer.class));
 
     assertEquals(stubbedCreatedResponseService,
-                 accountController.postAccountCreate(new AccountToCreateDTO()));
+                 accountController.postAccountCreate(new AccountToCreateTransfer()));
   }
 
   @Test
@@ -82,7 +81,7 @@ class AccountControllerTest
   @Test
   void test_canGetAccount() throws NoAccountsFoundException
   {
-    Mockito.doReturn(stubbedAccountDto).when(accountService).getAccount(Mockito.anyInt(), Mockito.anyLong());
-    assertEquals(stubbedAccountDto, accountController.getAccount(1,1L));
+    Mockito.doReturn(stubbedAccountTransfer).when(accountService).getAccount(Mockito.anyInt(), Mockito.anyLong());
+    assertEquals(stubbedAccountTransfer, accountController.getAccount(1, 1L));
   }
 }

@@ -10,7 +10,7 @@ import java.util.Objects;
 @Setter
 @Getter
 @NoArgsConstructor
-public class AccountDTO
+public class AccountTransfer
 {
   private Long id;
   private String name;
@@ -23,7 +23,7 @@ public class AccountDTO
     this.id = id;
   }
 
-  public AccountDTO(Account account)
+  public AccountTransfer(Account account)
   {
     this.setId(account.getId());
     this.name = account.getName();
@@ -37,7 +37,7 @@ public class AccountDTO
   {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    AccountDTO that = (AccountDTO) o;
+    AccountTransfer that = (AccountTransfer) o;
     return id.equals(that.id);
   }
 

@@ -5,14 +5,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.ssor.boss.account.exception.NoAccountsFoundException;
 import org.ssor.boss.account.service.AccountAdminService;
+import org.ssor.boss.account.service.AccountListOptions;
+import org.ssor.boss.account.transfer.AccountListTransfer;
 import org.ssor.boss.core.entity.Account;
 
 import javax.security.auth.login.AccountNotFoundException;
+import javax.websocket.server.PathParam;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = { "api/admin/v1" },
                 produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+@CrossOrigin
 public class AccountAdminController
 {
   @Autowired
@@ -23,6 +29,28 @@ public class AccountAdminController
   public Account getAccount(@PathVariable Long id) throws AccountNotFoundException
   {
     return accountService.getAccount(id);
+  }
+
+  @GetMapping(value = { "/accounts" })
+  @ResponseStatus(value = HttpStatus.OK)
+  public AccountListTransfer getAccountList(
+      @PathParam("keyword") Optional<String> keyword,
+      @PathParam("filter") Optional<String> filter,
+      @PathParam("sortBy") Optional<String> sortBy,
+      @PathParam("offset") Optional<Integer> offset,
+      @PathParam("limit") Optional<Integer> limit,
+      @PathParam("sortDirection") Optional<String> sortDirection
+  ) throws NoAccountsFoundException
+  {
+    var options = new AccountListOptions(
+        sortBy.orElse(AccountListOptions.DEFAULT_SORT_COLUMN),
+        offset.orElse(0).toString(),
+        limit.orElse(5).toString(),
+        sortDirection.orElse("false"),
+        keyword.orElse(""),
+        filter.orElse("")
+    );
+    return accountService.getAccounts(options);
   }
 
   @DeleteMapping(value = { "/accounts/{id}" })
