@@ -5,18 +5,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.ssor.boss.account.exception.AccountCreationException;
 import org.ssor.boss.account.exception.NoAccountsFoundException;
+import org.ssor.boss.account.exception.UserNotFoundException;
 import org.ssor.boss.account.service.AccountAdminService;
 import org.ssor.boss.account.service.AccountListOptions;
+import org.ssor.boss.account.service.ResponseService;
 import org.ssor.boss.account.transfer.AccountListTransfer;
+import org.ssor.boss.account.transfer.AccountToManuallyCreatePayload;
 import org.ssor.boss.core.entity.Account;
 
 import javax.security.auth.login.AccountNotFoundException;
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = { "api/admin/v1" },
+@RequestMapping(value = { "api/admin/v1/accounts" },
                 produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 @CrossOrigin
 public class AccountAdminController
@@ -24,14 +29,23 @@ public class AccountAdminController
   @Autowired
   AccountAdminService accountService;
 
-  @GetMapping(value = { "/accounts/{id}" })
+  @PostMapping(value = {""})
+  @ResponseStatus(value = HttpStatus.CREATED)
+  public ResponseService postAccount(@RequestBody @Valid AccountToManuallyCreatePayload payload) throws
+      UserNotFoundException,
+      AccountCreationException
+  {
+    return accountService.createAccount(payload);
+  }
+
+  @GetMapping(value = { "/{id}" })
   @ResponseStatus(value = HttpStatus.OK)
   public Account getAccount(@PathVariable Long id) throws AccountNotFoundException
   {
     return accountService.getAccount(id);
   }
 
-  @GetMapping(value = { "/accounts" })
+  @GetMapping(value = { "" })
   @ResponseStatus(value = HttpStatus.OK)
   public AccountListTransfer getAccountList(
       @PathParam("keyword") Optional<String> keyword,
@@ -53,7 +67,7 @@ public class AccountAdminController
     return accountService.getAccounts(options);
   }
 
-  @DeleteMapping(value = { "/accounts/{id}" })
+  @DeleteMapping(value = { "/{id}" })
   @ResponseStatus(value = HttpStatus.NO_CONTENT)
   public ResponseEntity<String> deleteAccount(@PathVariable Long id) throws AccountNotFoundException
   {

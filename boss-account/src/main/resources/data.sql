@@ -6,6 +6,14 @@ VALUES (1, 1, 1,
         '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
         '1620026671', null, true, false);
 
+INSERT INTO boss.user
+VALUES (2, 2, 1,
+        'demouser',
+        'demo@email.com',
+           -- 'password'
+        '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
+        '1620026671', null, true, false);
+
 INSERT INTO boss.account_type (id, name)
 VALUES (1, 'ACCOUNT_SAVING');
 INSERT INTO boss.account_type (id, name)

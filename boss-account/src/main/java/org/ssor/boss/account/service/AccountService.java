@@ -15,6 +15,7 @@ import org.ssor.boss.core.entity.Account;
 import org.ssor.boss.core.entity.AccountType;
 import org.ssor.boss.core.repository.UserRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -65,7 +66,7 @@ public class AccountService
     accountEntity.setBranchId(accountParams.getBranchId());
     accountEntity.setName(accountType.name().substring(8));
     accountEntity.setBalance(0f);
-    accountEntity.setOpened(LocalDateTime.now());
+    accountEntity.setOpened(LocalDate.now());
     accountEntity.setConfirmed(false);
     accountEntity.setActive(false);
 
