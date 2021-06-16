@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -17,7 +18,11 @@ public class AccountToManuallyCreatePayload
 
   @NotNull
   private final Float balance;
-  private String opened = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM/dd/uuuu kk:mm:ss"));
+
+  @Pattern(regexp = "^(0?[1-9]|1[012])[/](0?[1-9]|[12][0-9]|3[01])[/]\\d{4}$")
+  private String opened = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM/dd/uuuu"));
+
+  @Pattern(regexp = "^(0?[1-9]|1[012])[/](0?[1-9]|[12][0-9]|3[01])[/]\\d{4}$")
   private String closed;
 
   @NotNull

@@ -21,7 +21,7 @@ import javax.websocket.server.PathParam;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = { "api/admin/v1" },
+@RequestMapping(value = { "api/admin/v1/accounts" },
                 produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 @CrossOrigin
 public class AccountAdminController
@@ -29,7 +29,7 @@ public class AccountAdminController
   @Autowired
   AccountAdminService accountService;
 
-  @PostMapping(value = {"/accounts"})
+  @PostMapping(value = {""})
   @ResponseStatus(value = HttpStatus.CREATED)
   public ResponseService postAccount(@RequestBody @Valid AccountToManuallyCreatePayload payload) throws
       UserNotFoundException,
@@ -38,14 +38,14 @@ public class AccountAdminController
     return accountService.createAccount(payload);
   }
 
-  @GetMapping(value = { "/accounts/{id}" })
+  @GetMapping(value = { "/{id}" })
   @ResponseStatus(value = HttpStatus.OK)
   public Account getAccount(@PathVariable Long id) throws AccountNotFoundException
   {
     return accountService.getAccount(id);
   }
 
-  @GetMapping(value = { "/accounts" })
+  @GetMapping(value = { "" })
   @ResponseStatus(value = HttpStatus.OK)
   public AccountListTransfer getAccountList(
       @PathParam("keyword") Optional<String> keyword,
@@ -67,7 +67,7 @@ public class AccountAdminController
     return accountService.getAccounts(options);
   }
 
-  @DeleteMapping(value = { "/accounts/{id}" })
+  @DeleteMapping(value = { "/{id}" })
   @ResponseStatus(value = HttpStatus.NO_CONTENT)
   public ResponseEntity<String> deleteAccount(@PathVariable Long id) throws AccountNotFoundException
   {

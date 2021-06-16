@@ -21,6 +21,7 @@ import org.ssor.boss.core.entity.User;
 import org.ssor.boss.core.repository.UserRepository;
 
 import javax.security.auth.login.AccountNotFoundException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -43,7 +44,7 @@ public class AccountAdminService
   public ResponseEntity<String> deleteAccount(Long id) throws AccountNotFoundException
   {
     var account = accountRepository.findById(id).orElseThrow(AccountNotFoundException::new);
-    account.setClosed(LocalDateTime.now());
+    account.setClosed(LocalDate.now());
     account.setActive(false);
     accountRepository.save(account);
     return new ResponseEntity<>("Account Successfully Deleted", HttpStatus.NO_CONTENT);
@@ -84,9 +85,9 @@ public class AccountAdminService
     accountEntity.setBranchId(payload.getBranchId());
     accountEntity.setName(payload.getName());
     accountEntity.setBalance(payload.getBalance());
-    accountEntity.setOpened(LocalDateTime.parse(payload.getOpened(), DateTimeFormatter.ofPattern("MM/dd/uuuu kk:mm:ss")));
+    accountEntity.setOpened(LocalDate.parse(payload.getOpened(), DateTimeFormatter.ofPattern("MM/dd/uuuu")));
     accountEntity.setClosed(payload.getClosed() != null ?
-                            LocalDateTime.parse(payload.getClosed(), DateTimeFormatter.ofPattern("MM/dd/uuuu")) : null);
+                            LocalDate.parse(payload.getClosed(), DateTimeFormatter.ofPattern("MM/dd/uuuu")) : null);
     accountEntity.setConfirmed(payload.getConfirmed());
     accountEntity.setActive(payload.getActive());
 

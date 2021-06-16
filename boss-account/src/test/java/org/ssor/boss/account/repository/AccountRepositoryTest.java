@@ -10,6 +10,7 @@ import org.ssor.boss.core.entity.User;
 import org.ssor.boss.core.entity.UserType;
 import org.ssor.boss.core.repository.UserRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -45,7 +46,7 @@ class AccountRepositoryTest
     stubbedAccount.setAccountType(AccountType.ACCOUNT_CHECKING);
     stubbedAccount.setUsers(List.of(stubbedUser));
     stubbedAccount.setActive(true);
-    stubbedAccount.setOpened(LocalDateTime.now());
+    stubbedAccount.setOpened(LocalDate.now());
     stubbedAccount.setName("TestAccount");
     stubbedAccount.setBalance(123.45f);
     stubbedAccount.setConfirmed(false);
