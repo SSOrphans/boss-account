@@ -22,7 +22,6 @@ import org.ssor.boss.core.repository.UserRepository;
 
 import javax.security.auth.login.AccountNotFoundException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -103,5 +102,3 @@ public class AccountAdminService
     return new ResponseService(HttpStatus.CREATED.value(), "New account created.");
   }
 }
-
-
