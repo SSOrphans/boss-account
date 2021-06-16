@@ -1,0 +1,8 @@
+x-aws-vpc: ${AWS_VPC}
+
+version: "3"
+services:
+  app:
+    image: 828443345375.dkr.ecr.us-east-1.amazonaws.com/pvt-boss-tp-service:latest
+    ports:
+      - 8080:8080
