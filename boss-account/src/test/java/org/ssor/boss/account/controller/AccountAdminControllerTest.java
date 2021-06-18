@@ -14,16 +14,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.ssor.boss.account.exception.NoAccountsFoundException;
 import org.ssor.boss.account.service.AccountAdminService;
 import org.ssor.boss.account.service.AccountListOptions;
+import org.ssor.boss.account.transfer.AccountListAdminTransfer;
 import org.ssor.boss.account.transfer.AccountListTransfer;
 import org.ssor.boss.account.transfer.AccountTransfer;
 import org.ssor.boss.core.entity.Account;
 import org.ssor.boss.core.entity.AccountType;
+import org.ssor.boss.core.entity.User;
 
 import javax.security.auth.login.AccountNotFoundException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -39,7 +39,7 @@ class AccountAdminControllerTest
   AccountAdminController accountAdminController;
 
   static Account stubbedAccount;
-  static AccountListTransfer stubbedAccountListTransfer;
+  static AccountListAdminTransfer stubbedAccountListTransfer;
 
   @BeforeAll
   static void setUp()
@@ -55,11 +55,15 @@ class AccountAdminControllerTest
     account.setBalance(5.0f);
     account.setBranchId(1);
 
+    var user = new User();
+    user.setId(1);
+    user.setUsername("TestUser");
+    account.setUsers(Collections.singletonList(user));
     stubbedAccount = account;
 
     List<Account> accountTransferList = new ArrayList<>();
     accountTransferList.add(account);
-    stubbedAccountListTransfer = new AccountListTransfer(accountTransferList, 1, 1, 1);
+    stubbedAccountListTransfer = new AccountListAdminTransfer(accountTransferList, 1, 1, 1);
 
   }
 

@@ -57,9 +57,7 @@ class AccountRepositoryTest
   @Test
   void test_canFindId()
   {
-
     List<Account> foundEntity = accountRepository.findAccountsByUser(1);
-
     assertNotNull(foundEntity);
   }
 }

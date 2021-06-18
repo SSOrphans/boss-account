@@ -38,8 +38,24 @@ CREATE TABLE IF NOT EXISTS user
 
 CREATE TABLE IF NOT EXISTS account_users
 (
-    account_id LONG         NOT NULL,
-    user_id    INT UNSIGNED NOT NULL,
+    account_id LONG      NOT NULL,
+    user_id              INT UNSIGNED NOT NULL,
     FOREIGN KEY (account_id) REFERENCES account (id),
     FOREIGN KEY (user_id) REFERENCES user (id)
 );
+
+create table if not exists account_holder
+(
+    user_id		INT UNSIGNED	NOT NULL,
+    full_name	VARCHAR(64)		NOT NULL,
+    dob			DATE			NOT NULL,
+    ssn			CHAR(64)		NOT NULL,
+    address		CHAR(255)		NOT NULL,
+    city		CHAR(64) 		NOT NULL,
+    state		CHAR(32)		NOT NULL,
+    zip			INT				NOT NULL,
+    phone		CHAR(16)		NOT NULL,
+
+    PRIMARY KEY	(user_id),
+    FOREIGN KEY	(user_id) REFERENCES boss.user (id)
+    );
