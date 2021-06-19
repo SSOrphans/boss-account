@@ -1,8 +1,8 @@
-x-aws-vpc: ${AWS_VPC}
+x-aws-loadbalancer: "boss-docker-nlb"
 
 version: "3"
 services:
-  app:
-    image: 828443345375.dkr.ecr.us-east-1.amazonaws.com/pvt-boss-tp-service:latest
+  account:
+    image: 693808905730.dkr.ecr.us-east-2.amazonaws.com/boss-account-repo
     ports:
       - 8080:8080
