@@ -102,7 +102,7 @@ class AccountServiceTest
   }
 
   @Test
-  void test_canCreateAccount() throws UserNotFoundException, AccountCreationException, AccountTypeNotFoundException
+  void test_canCreateAccount() throws UserNotFoundException, AccountCreationException
   {
 
     Mockito.doReturn(Optional.of(stubbedUser)).when(userRepository).findById(Mockito.anyInt());
@@ -114,7 +114,7 @@ class AccountServiceTest
   }
 
   @Test
-  void test_willThrowUserNotFoundException() throws UserNotFoundException, AccountCreationException
+  void test_willThrowUserNotFoundException()
   {
     Mockito.doReturn(Optional.empty()).when(userRepository).findById(Mockito.anyInt());
 
