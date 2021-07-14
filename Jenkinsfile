@@ -11,7 +11,7 @@ node {
             }
             withEnv(["commitHash=${sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()}"]) {
                 stage('Build') {
-                    withMaven(jdk: 'amazoncorretto-11') {
+                    withMaven(jdk: 'amazoncorretto-11', maven: 'mvn') {
                         echo "Building $serviceName with maven"
                         sh 'mvn clean package'
                     }
