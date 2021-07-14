@@ -12,7 +12,6 @@ import org.ssor.boss.account.service.AccountAdminService;
 import org.ssor.boss.account.service.AccountListOptions;
 import org.ssor.boss.account.service.ResponseService;
 import org.ssor.boss.account.transfer.AccountListAdminTransfer;
-import org.ssor.boss.account.transfer.AccountListTransfer;
 import org.ssor.boss.account.transfer.AccountToManuallyCreatePayload;
 import org.ssor.boss.core.entity.Account;
 
