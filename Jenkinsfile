@@ -18,7 +18,7 @@ node {
                 }
                 stage('Quality Analysis') {
                     withSonarQubeEnv('SonarQube Server') {
-                        withMaven(jdk: 'amazoncorretto-11') {
+                        withMaven(jdk: 'amazoncorretto-11', maven: 'mvn') {
                             echo "Performing Quality Analysis for $serviceName"
                             sh 'mvn sonar:sonar'
                         }
