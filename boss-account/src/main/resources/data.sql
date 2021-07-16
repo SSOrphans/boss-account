@@ -37,4 +37,10 @@ VALUES (420391249212312, 1);
 INSERT INTO boss.account_users (account_id, user_id)
 VALUES (234893491289398, 1);
 INSERT INTO boss.account_users (account_id, user_id)
-VALUES (985896289370229, 1);
+VALUES (985896289370229, 2);
+
+insert into boss.account_holder(user_id, full_name, dob, ssn, address, city, state, zip, phone)
+values(1, 'Trevor Philips', 20130917, '123-45-6789', '16703 Nicklaus Dr', 'Los Angeles', 'CA', 91342, '+12735550136');
+insert into boss.account_holder(user_id, full_name, dob, ssn, address, city, state, zip, phone)
+values(2, 'Aurora Tea', 19930721, '987-654-3210', '1345 Ocean St', 'San Francisco', 'CA', 94512, '+14105682345');
+

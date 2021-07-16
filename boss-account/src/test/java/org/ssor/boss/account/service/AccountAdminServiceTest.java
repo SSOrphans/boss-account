@@ -15,15 +15,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.ssor.boss.account.exception.NoAccountsFoundException;
 import org.ssor.boss.account.repository.AccountRepository;
+import org.ssor.boss.account.transfer.AccountListAdminTransfer;
 import org.ssor.boss.account.transfer.AccountListTransfer;
 import org.ssor.boss.account.transfer.AccountTransfer;
 import org.ssor.boss.core.entity.Account;
 import org.ssor.boss.core.entity.AccountType;
+import org.ssor.boss.core.entity.User;
 import org.ssor.boss.core.repository.UserRepository;
 
 import javax.security.auth.login.AccountNotFoundException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,6 +62,12 @@ class AccountAdminServiceTest
     accountA.setBalance(5.0f);
     accountA.setBranchId(1);
 
+    var userA = new User();
+    userA.setId(1);
+    userA.setUsername("TestA");
+
+    accountA.setUsers(Collections.singletonList(userA));
+
     var accountB = new Account();
     accountB = new Account();
     accountB.setId(1L);
@@ -68,6 +77,12 @@ class AccountAdminServiceTest
     accountB.setActive(true);
     accountB.setBalance(5.0f);
     accountB.setBranchId(1);
+
+    var userB = new User();
+    userB.setId(1);
+    userB.setUsername("TestB");
+
+    accountB.setUsers(Collections.singletonList(userA));
 
     List<Account> accountTransfers = new ArrayList<>();
     accountTransfers.add(accountA);
@@ -101,8 +116,8 @@ class AccountAdminServiceTest
            .findAccountsWithOptions(Mockito.anyString(), Mockito.any(AccountType.class), Mockito.any(Pageable.class));
 
     List<Account> accountList = stubbedAccountTransferPage.stream().collect(Collectors.toList());
-    AccountListTransfer expected = new AccountListTransfer(accountList, stubbedAccountTransferPage.getNumber() + 1,
-                                                           stubbedAccountTransferPage.getTotalPages(), limit);
+    var expected = new AccountListAdminTransfer(accountList, stubbedAccountTransferPage.getNumber() + 1,
+                                                                stubbedAccountTransferPage.getTotalPages(), limit);
     assertEquals(expected, accountAdminService.getAccounts(
         new AccountListOptions("", "0", Integer.toString(limit), "")
     ));

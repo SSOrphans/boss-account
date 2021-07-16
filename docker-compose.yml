@@ -1,0 +1,8 @@
+x-aws-loadbalancer: "boss-docker-nlb"
+
+version: "3"
+services:
+  account:
+    image: 693808905730.dkr.ecr.us-east-2.amazonaws.com/boss-account-repo
+    ports:
+      - 8080:8080

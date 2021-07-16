@@ -1,0 +1,32 @@
+service: boss-account-lambda-csv-upload
+provider:
+  lambdaHashingVersion: 20201221
+  name: aws
+  runtime: java11
+  profile: default
+  region: us-east-2
+  timeout: 10
+  memorySize: 1024
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action:
+            - 's3:*'
+          Resource:
+            - !Join ['', ['arn:aws:s3:::', !Ref ServerlessDeploymentBucket, '/*']]
+custom:
+  uploadBucket: ${S3_DATA_UPLOAD_BUCKET}
+
+package:
+  artifact: target/boss-account-lambda-csv-upload.jar
+
+functions:
+  accountDataUpload:
+    handler: org.ssor.boss.lambda.LambdaClass
+    events:
+      - s3:
+          bucket: ${self:custom.uploadBucket}
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .csv
