@@ -40,6 +40,7 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
+        <!-- Swagger -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
@@ -50,7 +51,13 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.7.0</version>
         </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-spring-web</artifactId>
+            <version>2.7.0</version>
+        </dependency>
 
+        <!-- BoSS Module -->
         <dependency>
             <groupId>org.ssor</groupId>
             <artifactId>boss-core</artifactId>
@@ -58,6 +65,7 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- Other Testing Dependencies -->
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-runner</artifactId>
@@ -65,6 +73,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Serialization -->
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
@@ -75,11 +84,6 @@
             <artifactId>lombok</artifactId>
             <version>1.18.20</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-spring-web</artifactId>
-            <version>2.7.0</version>
         </dependency>
     </dependencies>
 

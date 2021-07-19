@@ -14,16 +14,17 @@ provider:
           Action:
             - 's3:*'
           Resource:
+            - 'arn:aws:s3:::${self:custom.uploadBucket}/*'
             - !Join ['', ['arn:aws:s3:::', !Ref ServerlessDeploymentBucket, '/*']]
 custom:
-  uploadBucket: ${S3_DATA_UPLOAD_BUCKET}
+  uploadBucket: ssor-boss-data-upload
 
 package:
-  artifact: target/boss-account-lambda-csv-upload.jar
+  artifact: boss-lambda/target/boss-account-lambda-csv-upload.jar
 
 functions:
   accountDataUpload:
-    handler: org.ssor.boss.lambda.LambdaClass
+    handler: org.ssor.boss.lambda.LambdaHandler
     events:
       - s3:
           bucket: ${self:custom.uploadBucket}
