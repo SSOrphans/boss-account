@@ -207,7 +207,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/boss-account-lambda-csv-upload/dev/1626678965051-2021-07-19T07:16:05.051Z/boss-account-lambda-csv-upload.jar"
+                "S3Key": "serverless/boss-account-lambda-csv-upload/dev/1626982834964-2021-07-22T19:40:34.964Z/boss-account-lambda-csv-upload.jar"
               },
               "Handler": "org.ssor.boss.lambda.LambdaHandler",
               "Runtime": "java11",
@@ -225,14 +225,14 @@
               "AccountDataUploadLogGroup"
             ]
           },
-          "AccountDataUploadLambdaVersion5XxJ5Qvbk9r3b6HXvyW7MeTLJa2bY3YFW16Do0Zdo": {
+          "AccountDataUploadLambdaVersionNZjAflUuUBJUVavkVIYnTmRGIqZWmfCxPd4DdTq6iA": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AccountDataUploadLambdaFunction"
               },
-              "CodeSha256": "x0iaXtFaF5OarIyK+X74TpgEHMR3qv9EGLVaDwZJH+0="
+              "CodeSha256": "VEfURWMDrS5txe9FZ/leByprknHRhoOXp/C0gSkXR7Q="
             }
           },
           "S3BucketSsorbossdataupload": {
@@ -308,7 +308,7 @@
           "AccountDataUploadLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AccountDataUploadLambdaVersion5XxJ5Qvbk9r3b6HXvyW7MeTLJa2bY3YFW16Do0Zdo"
+              "Ref": "AccountDataUploadLambdaVersionNZjAflUuUBJUVavkVIYnTmRGIqZWmfCxPd4DdTq6iA"
             },
             "Export": {
               "Name": "sls-boss-account-lambda-csv-upload-dev-AccountDataUploadLambdaFunctionQualifiedArn"
@@ -426,7 +426,7 @@
         "timeout": 10,
         "runtime": "java11",
         "vpc": {},
-        "versionLogicalId": "AccountDataUploadLambdaVersion5XxJ5Qvbk9r3b6HXvyW7MeTLJa2bY3YFW16Do0Zdo"
+        "versionLogicalId": "AccountDataUploadLambdaVersionNZjAflUuUBJUVavkVIYnTmRGIqZWmfCxPd4DdTq6iA"
       }
     },
     "configValidationMode": "warn",
@@ -443,7 +443,7 @@
       },
       "package": {
         "artifact": "boss-lambda/target/boss-account-lambda-csv-upload.jar",
-        "artifactDirectoryName": "serverless/boss-account-lambda-csv-upload/dev/1626678965051-2021-07-19T07:16:05.051Z"
+        "artifactDirectoryName": "serverless/boss-account-lambda-csv-upload/dev/1626982834964-2021-07-22T19:40:34.964Z"
       },
       "functions": {
         "$ref": "$[\"service\"][\"functions\"]"
@@ -453,7 +453,7 @@
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/boss-account-lambda-csv-upload/dev/1626678965051-2021-07-19T07:16:05.051Z",
+    "artifactDirectoryName": "serverless/boss-account-lambda-csv-upload/dev/1626982834964-2021-07-22T19:40:34.964Z",
     "artifact": "boss-account-lambda-csv-upload.jar"
   }
 }
