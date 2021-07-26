@@ -1,44 +1,39 @@
 package org.ssor.boss.lambda;
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.S3Event;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
-import org.ssor.boss.core.entity.Account;
-import org.ssor.boss.core.entity.AccountType;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class LambdaHandler implements RequestHandler<S3Event, Void>
 {
 
-  private static final Logger logger = Logger.getLogger(LambdaHandler.class.getName());
+  LambdaLogger logger;
   private Connection conn = null;
 
   @Override
   public Void handleRequest(S3Event s3Event, Context context)
   {
-
+    logger = context.getLogger();
     String srcBucket = s3Event.getRecords().get(0).getS3().getBucket().getName();
     String srcKey = s3Event.getRecords().get(0).getS3().getObject().getUrlDecodedKey();
 
-    logger.info(() -> "Bucket Name: " + srcBucket);
-    logger.info(() -> "Bucket Key: " + srcKey);
+    logger.log("Bucket Name: " + srcBucket);
+    logger.log("Bucket Key: " + srcKey);
 
     AmazonS3 s3Client = AmazonS3ClientBuilder.defaultClient();
-    S3Object s3Object = s3Client.getObject(new GetObjectRequest(
-        srcBucket, srcKey));
+    S3Object s3Object = s3Client.getObject(new GetObjectRequest(srcBucket, srcKey));
     InputStream inputStream = s3Object.getObjectContent();
 
     String text = new BufferedReader(
@@ -46,45 +41,42 @@ public class LambdaHandler implements RequestHandler<S3Event, Void>
         .lines()
         .collect(Collectors.joining("\n"));
 
-    logger.info(() -> text);
+    logger.log("Uploaded CSV File Content: " + text);
 
-    List<String> columns = Arrays.stream(text.split("\n")).collect(Collectors.toList());
+    List<String> rows = Arrays.stream(text.split("\n")).collect(Collectors.toList());
 
-    for (String column : columns)
+    try
     {
-      List<String> row = Arrays.stream(column.split(",")).collect(Collectors.toList());
-      Account account = new Account();
-      account.setId(Long.parseLong(row.get(0)));
-      account.setAccountType(AccountType.values()[Integer.parseInt(row.get(1))]);
-      account.setBranchId(Integer.parseInt(row.get(2)));
-      account.setName(Optional.ofNullable(row.get(3)).orElse("Generic Account"));
-      account.setBalance(Float.parseFloat(row.get(4)));
-      account.setOpened(LocalDate.parse(row.get(5)));
+      logger.log("Getting remote connection with connection string from environment variables.");
+      conn = getRemoteConnection();
+      logger.log("Remote connection successful.");
+    }
+    catch (ClassNotFoundException | SQLException e)
+    {
+      logger.log("Remote connection failed.");
+      e.printStackTrace();
+    }
 
-      if (null != row.get(6) && !row.get(6).equals("null"))
-        account.setClosed(LocalDate.parse(row.get(6)));
-
-      account.setConfirmed("true".equalsIgnoreCase(row.get(7)));
-      account.setActive("true".equalsIgnoreCase(row.get(8)));
-
+    for (String row : rows)
+    {
       try
       {
-        logger.info("Getting remote connection with connection string from environment variables.");
-        conn = getRemoteConnection();
-        logger.info("Remote connection successful.");
-        logger.info("Inserting account");
-        insert(account);
+        String validRow = validateAndFormatForQuery(row);
+        logger.log("Inserting [" + validRow + "]");
+        Boolean status = insert(validRow);
+        logger.log("Insert returned: " + status);
       }
-      catch (ClassNotFoundException | SQLException e)
+      catch (RowInvalidException e)
       {
-        logger.info("Remote connection failed.");
-        e.printStackTrace();
+        logger.log(e.getMessage());
+        // TODO: SES
       }
     }
 
     try
     {
       conn.close();
+      // TODO: SES
     }
     catch (SQLException e)
     {
@@ -94,39 +86,79 @@ public class LambdaHandler implements RequestHandler<S3Event, Void>
     return null;
   }
 
-  private Boolean insert(Account account) throws SQLException
+  private Boolean insert(String row)
   {
-    PreparedStatement preparedStatement = conn.prepareStatement(
-        "INSERT INTO boss.account (id, type_id, branch_id, name, balance, opened, closed, confirmed, active) " +
-        "values (?,?,?,?,?,?,?,?,?)");
-    preparedStatement.setLong(1, account.getId());
-    preparedStatement.setInt(2, account.getAccountType().index());
-    preparedStatement.setInt(3, account.getBranchId());
-    preparedStatement.setString(4, account.getName());
-    preparedStatement.setFloat(5, account.getBalance());
-    preparedStatement.setDate(6, Date.valueOf(account.getOpened()));
-    if (null != account.getClosed())
-      preparedStatement.setDate(7, Date.valueOf(account.getClosed()));
-    else
-      preparedStatement.setNull(7, Types.DATE);
-    preparedStatement.setBoolean(8, account.getConfirmed());
-    preparedStatement.setBoolean(9, account.getActive());
-
-    return preparedStatement.execute();
+    String query = "INSERT INTO boss.account " +
+                   "(id, type_id, branch_id, name, balance, opened, closed, confirmed, active) " +
+                   "VALUES (" + row + ")";
+    try (PreparedStatement preparedStatement = conn.prepareStatement(query))
+    {
+      logger.log("Preparing query: " + query);
+      preparedStatement.execute();
+      return true;
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+      return false;
+    }
   }
 
   private static Connection getRemoteConnection() throws ClassNotFoundException, SQLException
   {
 
-    String dbName = "boss";
-    String userName = "admin";
-    String password = "password";
-    String hostname = "test-database.cdlblimwkjhs.us-east-2.rds.amazonaws.com";
-    String port = "3306";
+    String dbName = System.getenv("DB_NAME");
+    String userName = System.getenv("DB_USERNAME");
+    String password = System.getenv("DB_PASSWORD");
+    String hostname = System.getenv("DB_HOSTNAME");
+    String port = System.getenv("DB_PORT");
     String jdbcUrl =
         "jdbc:mysql://" + hostname + ":" + port + "/" + dbName + "?user=" + userName + "&password=" + password;
-    Class.forName("com.mysql.jdbc.Driver");
-    Connection con = DriverManager.getConnection(jdbcUrl);
-    return con;
+    Class.forName(System.getenv("DB_DRIVER"));
+    return DriverManager.getConnection(jdbcUrl);
+  }
+
+  private String validateAndFormatForQuery(String row) throws RowInvalidException
+  {
+    boolean valid;
+    List<String> values = Arrays.stream(row.split(",")).collect(Collectors.toList());
+    for (int i = 0; i < values.size(); i++)
+    {
+      switch (i)
+      {
+        case 0:
+        case 1:
+        case 2:
+          valid = values.get(i).matches("\\d+");
+          break;
+        case 3:
+          valid = values.get(i).endsWith("\"") && values.get(i).startsWith("\"");
+          if (!valid)
+            values.set(i, "\"" + values.get(i) + "\"");
+          valid = true;
+          break;
+        case 5:
+        case 6:
+          if (!values.get(i).equals("null"))
+            values.set(i, "STR_TO_DATE('" + values.get(i) + "', '%Y-%m-%d')");
+          valid = true;
+          break;
+        default:
+          valid = true;
+      }
+      if (!valid)
+      {
+        throw new RowInvalidException(row);
+      }
+    }
+    return String.join(",", values);
+  }
+
+  private static class RowInvalidException extends Exception
+  {
+    public RowInvalidException(String row)
+    {
+      super("Row supplied is invalid: " + row);
+    }
   }
 }
