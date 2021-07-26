@@ -76,13 +76,13 @@ public class LambdaHandler implements RequestHandler<S3Event, Void>
     try
     {
       conn.close();
-      // TODO: SES
     }
     catch (SQLException e)
     {
       e.printStackTrace();
     }
 
+    // TODO: SES
     return null;
   }
 

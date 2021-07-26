@@ -15,12 +15,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.ssor</groupId>
-            <artifactId>boss-core</artifactId>
-            <version>1.2.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.19</version>
