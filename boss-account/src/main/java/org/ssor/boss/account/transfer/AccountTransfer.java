@@ -18,14 +18,9 @@ public class AccountTransfer
   private String type;
   private Boolean confirmed;
 
-  public void setId(Long id)
-  {
-    this.id = id;
-  }
-
   public AccountTransfer(Account account)
   {
-    this.setId(account.getId());
+    this.id = (account.getId());
     this.name = account.getName();
     this.balance = account.getBalance();
     this.type = account.getAccountType().toString();

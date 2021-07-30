@@ -3,13 +3,22 @@ Transform: AWS::Serverless-2016-10-31
 Description: ECS Base Template
 
 Parameters:
-  ApplicationEnvironment:
+  ClusterName:
+    Default: boss-test-cluster
     Type: String
+  ApplicationEnvironment:
+    Default: test
+    Type: String
+    AllowedValues: [prod, dev, test]
   ApplicationName:
+    Default: boss-test-application
     Type: String
   ECRRepositoryUri:
     Type: String
     Description: Full Uri for consumer docker image to run in container
+
+Conditions:
+  IsUserService: !Equals [!Ref ApplicationName, prod]
 
 Resources:
 
@@ -66,7 +75,7 @@ Resources:
       Family: !Sub ${ApplicationName}-${ApplicationEnvironment}
       RequiresCompatibilities:
         - FARGATE
-      Memory: '2GB'
+      Memory: !If [IsUserService, '4GB', '2GB']
       Cpu: '1 vcpu'
       NetworkMode: awsvpc
       ExecutionRoleArn: !Sub '{{resolve:secretsmanager:SOrphans/${ApplicationEnvironment}:SecretString:ecs-task-execution-role}}'
@@ -95,7 +104,7 @@ Resources:
                   - !Sub ':{{resolve:secretsmanager:SOrphans/${ApplicationEnvironment}:SecretString:port}}'
                   - !Sub '/{{resolve:secretsmanager:SOrphans/${ApplicationEnvironment}:SecretString:dbname}}'
           Essential: true
-          Memory: 2048
+          Memory: !If [IsUserService, 4096, 2048]
           LogConfiguration:
             LogDriver: awslogs
             Options:
@@ -104,7 +113,6 @@ Resources:
               awslogs-stream-prefix: ecs
               awslogs-create-group: 'true'
 
-  # Optional
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
@@ -138,3 +146,11 @@ Resources:
           TargetGroupArn: !Ref TargetGroup
       ListenerArn: !Sub '{{resolve:secretsmanager:SOrphans/${ApplicationEnvironment}:SecretString:listener-arn}}'
       Priority: 14
+      
+Outputs:
+  ECSCluster:
+    Description: ECS Cluster of the Service
+    Value: !Ref ClusterName
+  TargetGroup:
+    Description: Target Group
+    Value: !Ref TargetGroup

@@ -11,7 +11,7 @@ import org.ssor.boss.account.exception.UserNotFoundException;
 import org.ssor.boss.account.service.AccountAdminService;
 import org.ssor.boss.account.service.AccountListOptions;
 import org.ssor.boss.account.service.ResponseService;
-import org.ssor.boss.account.transfer.AccountListTransfer;
+import org.ssor.boss.account.transfer.AccountListAdminTransfer;
 import org.ssor.boss.account.transfer.AccountToManuallyCreatePayload;
 import org.ssor.boss.core.entity.Account;
 
@@ -47,7 +47,7 @@ public class AccountAdminController
 
   @GetMapping(value = { "" })
   @ResponseStatus(value = HttpStatus.OK)
-  public AccountListTransfer getAccountList(
+  public AccountListAdminTransfer getAccountList(
       @PathParam("keyword") Optional<String> keyword,
       @PathParam("filter") Optional<String> filter,
       @PathParam("sortBy") Optional<String> sortBy,

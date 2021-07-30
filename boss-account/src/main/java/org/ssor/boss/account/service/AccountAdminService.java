@@ -13,6 +13,7 @@ import org.ssor.boss.account.exception.AccountCreationException;
 import org.ssor.boss.account.exception.NoAccountsFoundException;
 import org.ssor.boss.account.exception.UserNotFoundException;
 import org.ssor.boss.account.repository.AccountRepository;
+import org.ssor.boss.account.transfer.AccountListAdminTransfer;
 import org.ssor.boss.account.transfer.AccountListTransfer;
 import org.ssor.boss.account.transfer.AccountToManuallyCreatePayload;
 import org.ssor.boss.core.entity.Account;
@@ -49,7 +50,7 @@ public class AccountAdminService
     return new ResponseEntity<>("Account Successfully Deleted", HttpStatus.NO_CONTENT);
   }
 
-  public AccountListTransfer getAccounts(AccountListOptions options) throws NoAccountsFoundException
+  public AccountListAdminTransfer getAccounts(AccountListOptions options) throws NoAccountsFoundException
   {
     Pageable pageable = PageRequest.of(
         options.getOffset(),
@@ -63,7 +64,7 @@ public class AccountAdminService
     if (accountList.isEmpty())
       throw new NoAccountsFoundException();
 
-    return new AccountListTransfer(accountList, accountPage.getNumber() + 1, accountPage.getTotalPages(),
+    return new AccountListAdminTransfer(accountList, accountPage.getNumber() + 1, accountPage.getTotalPages(),
                                    options.getLimit());
   }
 

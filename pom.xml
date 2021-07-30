@@ -13,6 +13,7 @@
     <modules>
         <module>boss-account</module>
         <module>boss-core</module>
+        <module>boss-lambda</module>
     </modules>
 
     <groupId>org.ssor.boss</groupId>
