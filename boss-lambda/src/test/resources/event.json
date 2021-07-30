@@ -1,0 +1,28 @@
+{
+  "Records": [
+    {
+      "eventVersion": "2.0",
+      "eventSource": "aws:s3",
+      "awsRegion": "us-east-2",
+      "eventTime": "1970-01-01T00:00:00.000Z",
+      "eventName": "ObjectCreated:Put",
+      "userIdentity": {
+        "principalId": "AKIA2DCR3XYBN62X5PGD"
+      },
+      "s3": {
+        "s3SchemaVersion": "1.0",
+        "configurationId": "01ad5f80-8648-417a-94c5-fe8a5d428fa5",
+        "bucket": {
+          "name": "ssor-boss-data-upload",
+          "ownerIdentity": {
+            "principalId": "AKIA2DCR3XYBN62X5PGD"
+          },
+          "arn": "arn:aws:s3:::ssor-boss-data-upload"
+        },
+        "object": {
+          "key": "fourth.csv"
+        }
+      }
+    }
+  ]
+}
