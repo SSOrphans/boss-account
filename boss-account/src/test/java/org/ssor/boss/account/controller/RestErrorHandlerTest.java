@@ -6,9 +6,9 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.ssor.boss.account.exception.AccountCreationException;
-import org.ssor.boss.account.exception.NoAccountsFoundException;
-import org.ssor.boss.account.exception.UserNotFoundException;
+import org.ssor.boss.core.exception.AccountCreationException;
+import org.ssor.boss.core.exception.NoAccountsFoundException;
+import org.ssor.boss.core.exception.UserNotFoundException;
 import org.ssor.boss.account.transfer.ErrorMessage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

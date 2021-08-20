@@ -4,16 +4,18 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.ssor.boss.account.exception.AccountCreationException;
-import org.ssor.boss.account.exception.NoAccountsFoundException;
-import org.ssor.boss.account.exception.UserNotFoundException;
-import org.ssor.boss.account.service.AccountService;
 import org.ssor.boss.account.service.ResponseService;
-import org.ssor.boss.account.transfer.AccountTransfer;
-import org.ssor.boss.account.transfer.AccountToCreateTransfer;
-import org.ssor.boss.account.transfer.UserAccountsTransfer;
+import org.ssor.boss.core.entity.Account;
+import org.ssor.boss.core.exception.AccountCreationException;
+import org.ssor.boss.core.exception.NoAccountsFoundException;
+import org.ssor.boss.core.exception.UserNotFoundException;
+import org.ssor.boss.core.service.AccountService;
+import org.ssor.boss.core.transfer.AccountToCreateTransfer;
+import org.ssor.boss.core.transfer.AccountTransfer;
 import org.ssor.boss.core.transfer.TransactionInput;
+import org.ssor.boss.core.transfer.UserAccountsTransfer;
 
 @RestController
 @RequestMapping(value = { "api/v1/accounts" },
@@ -26,10 +28,9 @@ public class AccountController
 
   @PostMapping(value = { "" },
                produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-  @ResponseStatus(value = HttpStatus.CREATED)
-  public ResponseService postAccountCreate(@RequestBody @Valid AccountToCreateTransfer accountParams) throws
-      UserNotFoundException,
-      AccountCreationException
+  public ResponseEntity<Account> postAccountCreate(@RequestBody @Valid AccountToCreateTransfer accountParams) throws
+          UserNotFoundException,
+          AccountCreationException
   {
     return accountService.createAccount(accountParams);
   }
@@ -54,8 +55,7 @@ public class AccountController
 
   @PostMapping(value = "/payment",
           produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-  @ResponseStatus(value = HttpStatus.OK)
-  public ResponseService accountPayment(@RequestBody @Valid TransactionInput transactionInput) throws
+  public ResponseEntity<String> accountPayment(@RequestBody @Valid TransactionInput transactionInput) throws
           NoAccountsFoundException
   {
     return accountService.createAccountPayment(transactionInput);

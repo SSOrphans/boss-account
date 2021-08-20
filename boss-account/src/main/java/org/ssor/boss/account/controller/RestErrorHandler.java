@@ -4,10 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import org.ssor.boss.account.exception.AccountCreationException;
-import org.ssor.boss.account.exception.NoAccountsFoundException;
-import org.ssor.boss.account.exception.UserNotFoundException;
 import org.ssor.boss.account.transfer.ErrorMessage;
+import org.ssor.boss.core.exception.AccountCreationException;
+import org.ssor.boss.core.exception.NoAccountsFoundException;
+import org.ssor.boss.core.exception.UserNotFoundException;
 
 @RestControllerAdvice
 public class RestErrorHandler

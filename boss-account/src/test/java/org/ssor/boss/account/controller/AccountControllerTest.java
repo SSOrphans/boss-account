@@ -8,15 +8,17 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.ssor.boss.account.exception.AccountCreationException;
-import org.ssor.boss.account.exception.NoAccountsFoundException;
-import org.ssor.boss.account.exception.UserNotFoundException;
-import org.ssor.boss.account.service.AccountService;
+import org.ssor.boss.core.entity.Account;
+import org.ssor.boss.core.exception.AccountCreationException;
+import org.ssor.boss.core.exception.NoAccountsFoundException;
+import org.ssor.boss.core.exception.UserNotFoundException;
+import org.ssor.boss.core.service.AccountService;
 import org.ssor.boss.account.service.ResponseService;
-import org.ssor.boss.account.transfer.AccountTransfer;
-import org.ssor.boss.account.transfer.AccountToCreateTransfer;
-import org.ssor.boss.account.transfer.UserAccountsTransfer;
+import org.ssor.boss.core.transfer.AccountTransfer;
+import org.ssor.boss.core.transfer.AccountToCreateTransfer;
+import org.ssor.boss.core.transfer.UserAccountsTransfer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +35,8 @@ class AccountControllerTest
   @InjectMocks
   AccountController accountController;
 
-  private static ResponseService stubbedCreatedResponseService;
+  private static ResponseEntity<Account> stubbedCreatedResponseEntity;
+  private static Account stubbedCreatedAccount;
   private static UserAccountsTransfer stubbedUserAccountDto;
   private static AccountTransfer stubbedAccountTransfer;
 
@@ -53,7 +56,8 @@ class AccountControllerTest
     UserAccountsTransfer userAccountsTransfer = new UserAccountsTransfer();
     userAccountsTransfer.setAccounts(accountList);
 
-    stubbedCreatedResponseService = new ResponseService(HttpStatus.CREATED.value(), "New account created.");
+    stubbedCreatedAccount = Account.builder().build();
+    stubbedCreatedResponseEntity = new ResponseEntity<>(stubbedCreatedAccount, HttpStatus.CREATED);
     stubbedUserAccountDto = userAccountsTransfer;
     stubbedAccountTransfer = accountTransfer;
   }
@@ -63,10 +67,10 @@ class AccountControllerTest
       UserNotFoundException,
       AccountCreationException
   {
-    Mockito.doReturn(stubbedCreatedResponseService).when(accountService)
+    Mockito.doReturn(stubbedCreatedResponseEntity).when(accountService)
            .createAccount(Mockito.any(AccountToCreateTransfer.class));
 
-    assertEquals(stubbedCreatedResponseService,
+    assertEquals(stubbedCreatedResponseEntity,
                  accountController.postAccountCreate(new AccountToCreateTransfer()));
   }
 

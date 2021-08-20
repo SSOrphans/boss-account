@@ -2,6 +2,10 @@ package org.ssor.boss.account.exception;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import org.ssor.boss.core.exception.AccountCreationException;
+import org.ssor.boss.core.exception.AccountTypeNotFoundException;
+import org.ssor.boss.core.exception.NoAccountsFoundException;
+import org.ssor.boss.core.exception.UserNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

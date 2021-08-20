@@ -11,11 +11,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.ssor.boss.account.exception.NoAccountsFoundException;
+import org.ssor.boss.core.exception.NoAccountsFoundException;
 import org.ssor.boss.account.service.AccountAdminService;
 import org.ssor.boss.account.service.AccountListOptions;
 import org.ssor.boss.account.transfer.AccountListTransfer;
-import org.ssor.boss.account.transfer.AccountTransfer;
+import org.ssor.boss.core.transfer.AccountTransfer;
 import org.ssor.boss.core.entity.Account;
 import org.ssor.boss.core.entity.AccountType;
 

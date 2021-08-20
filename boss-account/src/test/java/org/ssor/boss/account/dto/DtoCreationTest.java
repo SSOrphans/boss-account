@@ -2,10 +2,10 @@ package org.ssor.boss.account.dto;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.ssor.boss.account.transfer.AccountTransfer;
-import org.ssor.boss.account.transfer.AccountToCreateTransfer;
+import org.ssor.boss.core.transfer.AccountTransfer;
+import org.ssor.boss.core.transfer.AccountToCreateTransfer;
 import org.ssor.boss.account.transfer.ErrorMessage;
-import org.ssor.boss.account.transfer.UserAccountsTransfer;
+import org.ssor.boss.core.transfer.UserAccountsTransfer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

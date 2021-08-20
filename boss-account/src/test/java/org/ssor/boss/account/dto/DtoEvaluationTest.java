@@ -1,8 +1,8 @@
 package org.ssor.boss.account.dto;
 
 import org.junit.jupiter.api.Test;
-import org.ssor.boss.account.transfer.AccountTransfer;
-import org.ssor.boss.account.transfer.UserAccountsTransfer;
+import org.ssor.boss.core.transfer.AccountTransfer;
+import org.ssor.boss.core.transfer.UserAccountsTransfer;
 
 import java.util.ArrayList;
 import java.util.List;
