@@ -13,6 +13,7 @@ import org.ssor.boss.account.service.ResponseService;
 import org.ssor.boss.account.transfer.AccountTransfer;
 import org.ssor.boss.account.transfer.AccountToCreateTransfer;
 import org.ssor.boss.account.transfer.UserAccountsTransfer;
+import org.ssor.boss.core.transfer.TransactionInput;
 
 @RestController
 @RequestMapping(value = { "api/v1/accounts" },
@@ -49,6 +50,15 @@ public class AccountController
       NoAccountsFoundException
   {
     return accountService.getAccount(userId, accountId);
+  }
+
+  @PostMapping(value = "/payment",
+          produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+  @ResponseStatus(value = HttpStatus.OK)
+  public ResponseService accountPayment(@RequestBody @Valid TransactionInput transactionInput) throws
+          NoAccountsFoundException
+  {
+    return accountService.createAccountPayment(transactionInput);
   }
 
 }

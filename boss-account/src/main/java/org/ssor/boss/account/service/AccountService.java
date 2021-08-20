@@ -13,7 +13,11 @@ import org.ssor.boss.account.transfer.AccountToCreateTransfer;
 import org.ssor.boss.account.transfer.UserAccountsTransfer;
 import org.ssor.boss.core.entity.Account;
 import org.ssor.boss.core.entity.AccountType;
+import org.ssor.boss.core.entity.Transaction;
+import org.ssor.boss.core.entity.TransactionType;
+import org.ssor.boss.core.repository.TransactionRepository;
 import org.ssor.boss.core.repository.UserRepository;
+import org.ssor.boss.core.transfer.TransactionInput;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,6 +30,8 @@ public class AccountService
 {
   @Autowired
   AccountRepository accountRepository;
+  @Autowired
+  TransactionRepository transactionRepository;
   @Autowired
   UserRepository userRepository;
 
@@ -80,5 +86,32 @@ public class AccountService
     }
 
     return new ResponseService(HttpStatus.CREATED.value(), "New account created.");
+  }
+
+  public ResponseService createAccountPayment(TransactionInput transactionInput) {
+
+    Optional<Account> accountOpt = accountRepository.findById(transactionInput.getAccountId());
+
+    if(accountOpt.isEmpty())
+      return new ResponseService(HttpStatus.NOT_FOUND.value(), "No account found: " + transactionInput.getAccountId());
+
+    Account account = accountOpt.get();
+
+    account.setBalance(account.getBalance() + transactionInput.getAmount());
+
+    var transaction = new Transaction();
+    transaction.setAccountId(transactionInput.getAccountId());
+    transaction.setAmount(transactionInput.getAmount());
+    transaction.setDate(LocalDateTime.now());
+    transaction.setMerchantName(transactionInput.getMerchant());
+    transaction.setType(TransactionType.TRANSACTION_PAYMENT);
+    transaction.setNewBalance(account.getBalance());
+
+    transaction.setPending(true);
+    transaction.setSucceeded(false);
+    transactionRepository.save(transaction);
+    accountRepository.save(account);
+
+    return new ResponseService(HttpStatus.CREATED.value(), "Payment created.");
   }
 }

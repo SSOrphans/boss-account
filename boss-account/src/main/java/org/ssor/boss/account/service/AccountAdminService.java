@@ -22,6 +22,7 @@ import org.ssor.boss.core.repository.UserRepository;
 
 import javax.security.auth.login.AccountNotFoundException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -86,7 +87,7 @@ public class AccountAdminService
     accountEntity.setBalance(payload.getBalance());
     accountEntity.setOpened(LocalDate.parse(payload.getOpened(), DateTimeFormatter.ofPattern("MM/dd/uuuu")));
     accountEntity.setClosed(payload.getClosed() != null ?
-                            LocalDate.parse(payload.getClosed(), DateTimeFormatter.ofPattern("MM/dd/uuuu")) : null);
+            LocalDate.parse(payload.getClosed(), DateTimeFormatter.ofPattern("MM/dd/uuuu")) : null);
     accountEntity.setConfirmed(payload.getConfirmed());
     accountEntity.setActive(payload.getActive());
 
