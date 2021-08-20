@@ -14,7 +14,7 @@ import org.ssor.boss.account.exception.AccountCreationException;
 import org.ssor.boss.account.exception.AccountTypeNotFoundException;
 import org.ssor.boss.account.exception.NoAccountsFoundException;
 import org.ssor.boss.account.exception.UserNotFoundException;
-import org.ssor.boss.account.repository.AccountRepository;
+import org.ssor.boss.core.repository.AccountRepository;
 import org.ssor.boss.account.transfer.AccountTransfer;
 import org.ssor.boss.account.transfer.AccountToCreateTransfer;
 import org.ssor.boss.account.transfer.UserAccountsTransfer;
@@ -71,11 +71,13 @@ class AccountServiceTest
     ae1.setId(1L);
     ae1.setName("Test1");
     ae1.setBalance(12.34f);
+    ae1.setPendingBalance(44.50f);
     ae1.setAccountType(AccountType.ACCOUNT_CHECKING);
     Account ae2 = new Account();
     ae2.setId(2L);
     ae2.setName("Test2");
     ae2.setBalance(56.78f);
+    ae1.setPendingBalance(50.00f);
     ae2.setAccountType(AccountType.ACCOUNT_SAVING);
 
     List<Account> accountList = new ArrayList<>();

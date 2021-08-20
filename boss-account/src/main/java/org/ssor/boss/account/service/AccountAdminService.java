@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.ssor.boss.account.exception.AccountCreationException;
 import org.ssor.boss.account.exception.NoAccountsFoundException;
 import org.ssor.boss.account.exception.UserNotFoundException;
-import org.ssor.boss.account.repository.AccountRepository;
+import org.ssor.boss.core.repository.AccountRepository;
 import org.ssor.boss.account.transfer.AccountListTransfer;
 import org.ssor.boss.account.transfer.AccountToManuallyCreatePayload;
 import org.ssor.boss.core.entity.Account;
