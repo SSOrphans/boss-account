@@ -1,6 +1,5 @@
 create schema if not exists boss;
-use boss;
-CREATE TABLE IF NOT EXISTS account
+CREATE TABLE IF NOT EXISTS boss.account
 (
     id              LONG             NOT NULL,
     type_id         TINYINT UNSIGNED NOT NULL,
@@ -15,14 +14,14 @@ CREATE TABLE IF NOT EXISTS account
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS account_type
+CREATE TABLE IF NOT EXISTS boss.account_type
 (
     id   TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     name CHAR(16)         NOT NULL,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS user
+CREATE TABLE IF NOT EXISTS boss.user
 (
     id        INT UNSIGNED     NOT NULL AUTO_INCREMENT,
     type_id   TINYINT UNSIGNED NOT NULL,
@@ -37,7 +36,7 @@ CREATE TABLE IF NOT EXISTS user
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS account_users
+CREATE TABLE IF NOT EXISTS boss.account_users
 (
     account_id LONG         NOT NULL,
     user_id    INT UNSIGNED NOT NULL,
@@ -45,23 +44,39 @@ CREATE TABLE IF NOT EXISTS account_users
     FOREIGN KEY (user_id) REFERENCES user (id)
 );
 
-CREATE TABLE IF NOT EXISTS transaction_type (
-                                                id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                name CHAR(36) NOT NULL
+CREATE TABLE IF NOT EXISTS boss.transaction_type (
+            id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+            name CHAR(36) NOT NULL
     );
 
-CREATE TABLE IF NOT EXISTS transaction (
-                                           id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                           type_id TINYINT UNSIGNED NOT NULL,
-                                           account_id LONG NOT NULL,
-                                           overdraft_id INT UNSIGNED NULL,
-                                           atm_transaction_id INT UNSIGNED NULL,
-                                           merchant_name VARCHAR(64) NOT NULL,
+CREATE TABLE IF NOT EXISTS boss.transaction (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    type_id TINYINT UNSIGNED NOT NULL,
+    account_id LONG NOT NULL,
+    overdraft_id INT UNSIGNED NULL,
+    atm_transaction_id INT UNSIGNED NULL,
+    merchant_name VARCHAR(64) NOT NULL,
     amount FLOAT NOT NULL,
     new_balance FLOAT NOT NULL,
+    cashback FLOAT NOT NULL,
     date TIMESTAMP NOT NULL,
     succeeded BIT NOT NULL,
     pending BIT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (type_id) REFERENCES transaction_type (id)
-    );
+);
+
+CREATE TABLE IF NOT EXISTS boss.rewards_program
+(
+    id              INT UNSIGNED AUTO_INCREMENT    NOT NULL,
+    type            TINYINT UNSIGNED NOT NULL,
+    name            VARCHAR(32)      NOT NULL,
+    organization    VARCHAR(16)      NOT NULL,
+    cashback_rate   FLOAT            NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS boss.reward_type (
+    id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name CHAR(36) NOT NULL
+);

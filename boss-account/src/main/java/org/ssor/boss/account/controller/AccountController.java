@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.ssor.boss.account.service.ResponseService;
 import org.ssor.boss.core.entity.Account;
+import org.ssor.boss.core.entity.Transaction;
 import org.ssor.boss.core.exception.AccountCreationException;
 import org.ssor.boss.core.exception.NoAccountsFoundException;
 import org.ssor.boss.core.exception.UserNotFoundException;
@@ -15,6 +16,7 @@ import org.ssor.boss.core.service.AccountService;
 import org.ssor.boss.core.transfer.AccountToCreateTransfer;
 import org.ssor.boss.core.transfer.AccountTransfer;
 import org.ssor.boss.core.transfer.TransactionInput;
+import org.ssor.boss.core.transfer.TransactionTransfer;
 import org.ssor.boss.core.transfer.UserAccountsTransfer;
 
 @RestController
@@ -55,10 +57,13 @@ public class AccountController
 
   @PostMapping(value = "/payment",
           produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-  public ResponseEntity<String> accountPayment(@RequestBody @Valid TransactionInput transactionInput) throws
-          NoAccountsFoundException
+  public ResponseEntity<TransactionTransfer> accountPayment(@RequestBody @Valid TransactionInput transactionInput)
   {
-    return accountService.createAccountPayment(transactionInput);
+    TransactionTransfer transactionTransfer = accountService.createAccountPayment(transactionInput);
+    if(transactionTransfer == null)
+      return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+    return new ResponseEntity<>(transactionTransfer,HttpStatus.CREATED);
   }
 
 }
